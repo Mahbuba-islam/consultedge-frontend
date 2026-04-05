@@ -1,4 +1,4 @@
-export type UserRole = "SUPER_ADMIN" | "ADMIN" | "DOCTOR" | "PATIENT";
+export type UserRole =  "ADMIN" | "CLIENT" | "EXPERT" ;
 
 export const authRoutes = [ "/login", "/register", "/forgot-password", "/reset-password", "/verify-email" ];
 

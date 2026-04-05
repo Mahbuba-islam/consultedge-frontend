@@ -1,3 +1,28 @@
+export interface IRegisterResponse {
+  user: {
+    id: string;
+    name: string;
+    email: string;
+    role: string;
+    status: string;
+    isDeleted: boolean;
+    emailVerified: boolean;
+  };
+  session: any; // BetterAuth session
+  token: string; // better-auth.session_token
+  accessToken: string; // your JWT
+  refreshToken: string; // your JWT
+  client: {
+    id: string;
+    userId: string;
+    fullName: string;
+    email: string;
+    createdAt: string;
+  };
+}
+
+
+
 export interface ILOginResponse{
     token: string;
     accessToken: string;
@@ -16,3 +41,6 @@ export interface ILOginResponse{
         deletedAt?: Date | null | undefined;
     }
 }
+
+
+

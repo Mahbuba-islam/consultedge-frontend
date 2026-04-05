@@ -1,256 +1,225 @@
-// "use client";
-// /* eslint-disable @typescript-eslint/no-explicit-any */
-
-// import { useState, useEffect, useMemo } from "react";
-// import { useMutation } from "@tanstack/react-query";
-// import { useForm } from "@tanstack/react-form";
-// import { toast } from "sonner";
-
-// import { registerAction } from "@/src/app/(commonLayout)/(authRouteGroup)/register/_action";
-// // import { emailAvailabilityAction } from "@/src/app/(commonLayout)/(authRouteGroup)/register/_emailCheck";
-
-// import AppField from "@/components/shared/form/AppField";
-// import AppSubmitButton from "@/components/shared/form/AppSubmitButton";
-// import { Alert, AlertDescription } from "@/components/ui/alert";
-// import {
-//   Card,
-//   CardHeader,
-//   CardTitle,
-//   CardDescription,
-//   CardContent,
-//   CardFooter,
-// } from "@/components/ui/card";
-
-// import { IRegisterPayload, registerZodSchema } from "@/src/zod/auth.validation";
-// import Link from "next/link";
-// import { emailAvailabilityAction } from "@/src/app/(commonLayout)/(authRouteGroup)/register/_emailCheack";
-
-// interface RegisterFormProps {
-//   redirectPath?: string;
-// }
-
-// const RegisterForm = ({ redirectPath }: RegisterFormProps) => {
-//   const [serverError, setServerError] = useState<string | null>(null);
-//   const [emailStatus, setEmailStatus] = useState<"checking" | "exists" | "ok" | null>(null);
-//   // const [passwordStrength, setPasswordStrength] = useState<"weak" | "medium" | "strong">("weak");
-
-//   const { mutateAsync, isPending } = useMutation({
-//     mutationFn: (payload: IRegisterPayload) =>
-//       registerAction(payload, redirectPath),
-//   });
-
-//   // Password Strength Logic
-//   const checkStrength = (password: string) => {
-//     if (password.length < 6) return "weak";
-//     if (/[A-Z]/.test(password) && /\d/.test(password)) return "strong";
-//     return "medium";
-//   };
-
-//   const form = useForm({
-//     defaultValues: {
-//       fullName: "",
-//       email: "",
-//       password: "",
-//     },
-
-//     onSubmit: async ({ value }) => {
-//       setServerError(null);
-
-//       try {
-//         const result = (await mutateAsync(value)) as any;
-
-//         if (!result.success) {
-//           setServerError(result.message);
-//           toast.error(result.message);
-//           return;
-//         }
-
-//         toast.success("Account created successfully!");
-//         window.location.href = `/verifyEmail?email=${value.email}`;
-//       } catch (error: any) {
-//         const msg =
-//           error?.response?.data?.message ||
-//           error?.message ||
-//           "Something went wrong. Please try again.";
-
-//         setServerError(msg);
-//         toast.error(msg);
-//       }
-//     },
-//   });
-
-//   // Email Availability Check (debounced)
-//   useEffect(() => {
-//   const email = form.state.values.email;
-//   if (!email) return;
-
-//   let active = true;
-
-//   // microtask queue → no synchronous setState
-//   Promise.resolve().then(() => {
-//     if (active) setEmailStatus("checking");
-//   });
-
-//   const timer = setTimeout(async () => {
-//     const res = await emailAvailabilityAction(email);
-
-//     if (!active) return;
-
-//     setEmailStatus(res.success ? "ok" : "exists");
-//   }, 500);
-
-//   return () => {
-//     active = false;
-//     clearTimeout(timer);
-//   };
-// }, [form.state.values.email]);
-
-
-//   // Password Strength Meter
-// const passwordStrength = useMemo(() => {
-//   return checkStrength(form.state.values.password);
-// }, [form.state.values.password]);
-
-//   return (
-//     <Card className="w-full max-w-md mx-auto shadow-md">
-//       <CardHeader className="text-center">
-//         <CardTitle className="text-2xl font-bold">Create an Account</CardTitle>
-//         <CardDescription>Join ConsultEdge today</CardDescription>
-//       </CardHeader>
-
-//       <CardContent>
-//         <form
-//           noValidate
-//           onSubmit={(e) => {
-//             e.preventDefault();
-//             form.handleSubmit();
-//           }}
-//           className="space-y-4"
-//         >
-//           {/* Full Name */}
-//           <form.Field
-//             name="fullName"
-//             validators={{ onChange: registerZodSchema.shape.fullName }}
-//           >
-//             {(field) => (
-//               <AppField
-//                 field={field}
-//                 label="Full Name"
-//                 placeholder="Enter your full name"
-//               />
-//             )}
-//           </form.Field>
-
-//           {/* Email */}
-//           <form.Field
-//             name="email"
-//             validators={{ onChange: registerZodSchema.shape.email }}
-//           >
-//             {(field) => (
-//               <div>
-//                 <AppField
-//                   field={field}
-//                   label="Email"
-//                   type="email"
-//                   placeholder="Enter your email"
-//                 />
-
-//                 {emailStatus === "checking" && (
-//                   <p className="text-sm text-blue-500">Checking availability…</p>
-//                 )}
-//                 {emailStatus === "exists" && (
-//                   <p className="text-sm text-red-500">Email already exists</p>
-//                 )}
-//                 {emailStatus === "ok" && (
-//                   <p className="text-sm text-green-600">Email available</p>
-//                 )}
-//               </div>
-//             )}
-//           </form.Field>
-
-//           {/* Password */}
-//           <form.Field
-//             name="password"
-//             validators={{ onChange: registerZodSchema.shape.password }}
-//           >
-//             {(field) => (
-//               <div>
-//                 <AppField
-//                   field={field}
-//                   label="Password"
-//                   type="password"
-//                   placeholder="Create a password"
-//                 />
-
-//                 {/* Password Strength Meter */}
-//                 <div className="h-2 mt-1 rounded bg-gray-200">
-//                   <div
-//                     className={`h-full rounded ${
-//                       passwordStrength === "weak"
-//                         ? "bg-red-500 w-1/4"
-//                         : passwordStrength === "medium"
-//                         ? "bg-yellow-500 w-2/4"
-//                         : "bg-green-600 w-full"
-//                     }`}
-//                   />
-//                 </div>
-//                 <p
-//                   className={`text-sm ${
-//                     passwordStrength === "weak"
-//                       ? "text-red-500"
-//                       : passwordStrength === "medium"
-//                       ? "text-yellow-600"
-//                       : "text-green-600"
-//                   }`}
-//                 >
-//                   {passwordStrength.toUpperCase()}
-//                 </p>
-//               </div>
-//             )}
-//           </form.Field>
-
-//           {/* Server Error */}
-//           {serverError && (
-//             <Alert variant="destructive">
-//               <AlertDescription>{serverError}</AlertDescription>
-//             </Alert>
-//           )}
-
-//           {/* Submit Button */}
-//           <form.Subscribe selector={(s) => [s.canSubmit, s.isSubmitting] as const}>
-//             {([canSubmit, isSubmitting]) => (
-//               <AppSubmitButton
-//                 isPending={isSubmitting || isPending}
-//                 pendingLabel="Creating account..."
-//                 disabled={!canSubmit || emailStatus === "exists"}
-//               >
-//                 Sign Up
-//               </AppSubmitButton>
-//             )}
-//           </form.Subscribe>
-//         </form>
-//       </CardContent>
-
-//       <CardFooter className="justify-center border-t pt-4">
-//         <p className="text-sm text-muted-foreground">
-//           Already have an account{" "}
-//           <Link href="/login" className="text-primary font-medium hover:underline">
-//             Log In
-//           </Link>
-//         </p>
-//       </CardFooter>
-//     </Card>
-//   );
-// };
-
-// export default RegisterForm;
-
 "use client";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
-export default function Page() {
-  return (
-    <div>
-      <h1 className="text-2xl font-bold">Register form</h1>
-    </div>
-  );
+import { registerAction } from "@/src/app/(commonLayout)/(authRouteGroup)/register/_action";
+import AppField from "@/components/form/AppField";
+import AppSubmitButton from "@/components/form/AppSubmitButton";
+
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+
+
+
+import { useForm } from "@tanstack/react-form";
+import { useMutation } from "@tanstack/react-query";
+import { Eye, EyeOff } from "lucide-react";
+import Link from "next/link";
+import { useState } from "react";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { IRegisterPayload, registerZodSchema } from "@/src/zod/auth.validation";
+
+interface RegisterFormProps {
+  redirectPath?: string;
 }
+
+const RegisterForm = ({ redirectPath }: RegisterFormProps) => {
+  const [serverError, setServerError] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
+
+  const { mutateAsync, isPending } = useMutation({
+    mutationFn: (payload: IRegisterPayload) =>
+      registerAction(payload, redirectPath),
+  });
+
+  const form = useForm({
+    defaultValues: {
+      fullName: "",
+      email: "",
+      password: "",
+    },
+
+    onSubmit: async ({ value }) => {
+      setServerError(null);
+
+      try {
+        const result = (await mutateAsync(value)) as any;
+
+        if (!result.success) {
+          setServerError(result.message || "Registration failed");
+          return;
+        }
+
+        // Redirect handled inside registerAction
+      } catch (error: any) {
+        console.log(`Registration failed: ${error.message}`);
+        setServerError(`Registration failed: ${error.message}`);
+      }
+    },
+  });
+
+  return (
+    <Card className="w-full max-w-md mx-auto shadow-md">
+      <CardHeader className="text-center">
+        <CardTitle className="text-2xl font-bold">Create an Account</CardTitle>
+        <CardDescription>
+          Fill in your details to create your account.
+        </CardDescription>
+      </CardHeader>
+
+      <CardContent>
+        <form
+          method="POST"
+          noValidate
+          onSubmit={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            form.handleSubmit();
+          }}
+          className="space-y-4"
+        >
+          {/* Full Name */}
+          <form.Field
+            name="fullName"
+            validators={{ onChange: registerZodSchema.shape.fullName }}
+          >
+            {(field) => (
+              <AppField
+                field={field}
+                label="Full Name"
+                type="text"
+                placeholder="Enter your full name"
+              />
+            )}
+          </form.Field>
+
+          {/* Email */}
+          <form.Field
+            name="email"
+            validators={{ onChange: registerZodSchema.shape.email }}
+          >
+            {(field) => (
+              <AppField
+                field={field}
+                label="Email"
+                type="email"
+                placeholder="Enter your email"
+              />
+            )}
+          </form.Field>
+
+          {/* Password */}
+          <form.Field
+            name="password"
+            validators={{ onChange: registerZodSchema.shape.password }}
+          >
+            {(field) => (
+              <AppField
+                field={field}
+                label="Password"
+                type={showPassword ? "text" : "password"}
+                placeholder="Create a password"
+                append={
+                  <Button
+                    type="button"
+                    onClick={() => setShowPassword((v) => !v)}
+                    variant="ghost"
+                    size="icon"
+                  >
+                    {showPassword ? (
+                      <EyeOff className="size-4" />
+                    ) : (
+                      <Eye className="size-4" />
+                    )}
+                  </Button>
+                }
+              />
+            )}
+          </form.Field>
+
+          {/* Server Error */}
+          {serverError && (
+            <Alert variant="destructive">
+              <AlertDescription>{serverError}</AlertDescription>
+            </Alert>
+          )}
+
+          {/* Submit */}
+          <form.Subscribe selector={(s) => [s.canSubmit, s.isSubmitting] as const}>
+            {([canSubmit, isSubmitting]) => (
+              <AppSubmitButton
+                isPending={isSubmitting || isPending}
+                pendingLabel="Creating Account..."
+                disabled={!canSubmit}
+              >
+                Sign Up
+              </AppSubmitButton>
+            )}
+          </form.Subscribe>
+        </form>
+
+        {/* Divider */}
+        <div className="relative my-6">
+          <div className="absolute inset-0 flex items-center">
+            <div className="w-full border-t border-gray-300"></div>
+          </div>
+          <div className="relative flex justify-center text-sm">
+            <span className="px-2 bg-white text-gray-500">
+              Or continue with
+            </span>
+          </div>
+        </div>
+
+        {/* Google Signup */}
+        <Button
+          variant="outline"
+          className="w-full"
+          onClick={() => {
+            const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+            window.location.href = `${baseUrl}/auth/login/google`;
+          }}
+        >
+          <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
+            <path
+              fill="currentColor"
+              d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+            />
+            <path
+              fill="currentColor"
+              d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+            />
+            <path
+              fill="currentColor"
+              d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+            />
+            <path
+              fill="currentColor"
+              d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+            />
+          </svg>
+          Sign up with Google
+        </Button>
+      </CardContent>
+
+      <CardFooter className="justify-center border-t pt-4">
+        <p className="text-sm text-muted-foreground">
+          Already have an account?{" "}
+          <Link
+            href="/login"
+            className="text-primary font-medium hover:underline underline-offset-4"
+          >
+            Log In
+          </Link>
+        </p>
+      </CardFooter>
+    </Card>
+  );
+};
+
+export default RegisterForm;
