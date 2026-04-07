@@ -90,6 +90,7 @@ const axiousInstance = async () => {
 export interface ApiRequestOptions {
   params?: Record<string, unknown>;
   headers?: Record<string, string>;
+  withCredentials?: boolean; // For cookie-based auth if needed
 }
 
 
