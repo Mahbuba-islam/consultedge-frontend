@@ -11,9 +11,9 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 interface DashboardMobileSidebarProps{
-    userInfo : UserInfo;
-    navItems : NavSection[];
-    dashboardHome : string;
+    userInfo:UserInfo;
+    navItems:NavSection[];
+    dashboardHome:string;
 }
 
 
@@ -24,7 +24,7 @@ const DashboardMobileSidebar = ({dashboardHome, navItems, userInfo} : DashboardM
       {/* Logo / Brand */}
       <div className="flex h-16 items-center border-b px-6">
         <Link href={dashboardHome}>
-          <span className="text-xl font-bold text-primary">PH Healthcare</span>
+          <span className="text-xl font-bold text-primary">Consult-Edge</span>
         </Link>
       </div>
 
