@@ -1,0 +1,33 @@
+"use client";
+
+import { useMemo } from "react";
+import { useMutation, useQuery } from "@tanstack/react-query";
+
+import {
+  findOrCreateRoomForExpert,
+  getChatRooms,
+  sortChatRooms,
+} from "@/src/services/chatRoom.service";
+
+export const useChatRooms = (params?: { expertId?: string }) => {
+  const roomsQuery = useQuery({
+    queryKey: ["chat-rooms", params?.expertId ?? "all"],
+    queryFn: () => getChatRooms(params),
+    staleTime: 30 * 1000,
+  });
+
+  const ensureRoomMutation = useMutation({
+    mutationFn: (expertId: string) => findOrCreateRoomForExpert(expertId),
+  });
+
+  const rooms = useMemo(() => sortChatRooms(roomsQuery.data ?? []), [roomsQuery.data]);
+
+  return {
+    ...roomsQuery,
+    rooms,
+    ensureRoom: ensureRoomMutation.mutateAsync,
+    isCreatingRoom: ensureRoomMutation.isPending,
+  };
+};
+
+export default useChatRooms;

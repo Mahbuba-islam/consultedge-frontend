@@ -9,6 +9,7 @@ import { NavSection } from "@/src/types/dashboard.types";
 import { UserInfo } from "@/src/types/user.types";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
 
 interface DashboardMobileSidebarProps{
     userInfo:UserInfo;
@@ -19,6 +20,7 @@ interface DashboardMobileSidebarProps{
 
 const DashboardMobileSidebar = ({dashboardHome, navItems, userInfo} : DashboardMobileSidebarProps ) => {
     const pathname = usePathname()
+    const [openDropdown, setOpenDropdown] = useState<string | null>(null)
   return (
     <div className="flex h-full flex-col overflow-y-auto">
       {/* Logo / Brand */}
@@ -44,12 +46,61 @@ const DashboardMobileSidebar = ({dashboardHome, navItems, userInfo} : DashboardM
 
               <div className="space-y-1">
                 {section.items.map((item, id) => {
-                  const isActive = pathname === item.href;
                   const Icon = getIconComponent(item.icon);
+
+                  if (item.children && item.children.length > 0) {
+                    const hasActiveChild = item.children.some((child) => pathname === child.href);
+                    const isOpen = openDropdown === item.title || hasActiveChild;
+
+                    return (
+                      <div key={id} className="space-y-1">
+                        <button
+                          type="button"
+                          onClick={() => setOpenDropdown(isOpen ? null : item.title)}
+                          className={cn(
+                            "flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-all",
+                            isOpen
+                              ? "bg-accent text-accent-foreground"
+                              : "text-muted-foreground hover:bg-accent hover:text-accent-foreground",
+                          )}
+                        >
+                          <Icon className="h-4 w-4" />
+                          <span className="flex-1 text-left">{item.title}</span>
+                        </button>
+
+                        {isOpen ? (
+                          <div className="ml-6 space-y-1">
+                            {item.children.map((child, childId) => {
+                              const ChildIcon = getIconComponent(child.icon);
+                              const isChildActive = pathname === child.href;
+
+                              return (
+                                <Link
+                                  href={child.href!}
+                                  key={childId}
+                                  className={cn(
+                                    "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-all",
+                                    isChildActive
+                                      ? "bg-violet-600 text-white"
+                                      : "text-muted-foreground hover:bg-accent hover:text-accent-foreground",
+                                  )}
+                                >
+                                  <ChildIcon className="h-4 w-4" />
+                                  <span className="flex-1">{child.title}</span>
+                                </Link>
+                              );
+                            })}
+                          </div>
+                        ) : null}
+                      </div>
+                    );
+                  }
+
+                  const isActive = pathname === item.href;
 
                   return (
                     <Link
-                      href={item.href}
+                      href={item.href!}
                       key={id}
                       className={cn(
                         "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-all",

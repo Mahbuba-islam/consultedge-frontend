@@ -1,8 +1,11 @@
+import { buildFormUrlEncodedPayload } from "../lib/axious/buildFormUrlEncodedPayload";
 import { httpClient } from "../lib/axious/httpClient";
 import type {
   IAssignExpertAvailabilityPayload,
   IExpertAvailability,
   IExpertAvailabilityQueryParams,
+  IPublishExpertAvailabilityPayload,
+  IPublishExpertAvailabilityResponse,
   IUpdateExpertAvailabilityPayload,
 } from "../types/expert.types";
 
@@ -11,10 +14,35 @@ export const assignExpertSchedules = async (
 ): Promise<IExpertAvailability[]> => {
   const response = await httpClient.post<IExpertAvailability[]>(
     "/expert-schedules/assign",
-    payload,
+    buildFormUrlEncodedPayload(payload),
+    {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    },
   );
 
   return Array.isArray(response.data) ? response.data : [];
+};
+
+export const publishExpertAvailability = async (
+  payload: IPublishExpertAvailabilityPayload,
+): Promise<IPublishExpertAvailabilityResponse> => {
+  const response = await httpClient.patch<IPublishExpertAvailabilityResponse>(
+    "/expert-schedules/my/publish",
+    buildFormUrlEncodedPayload(payload),
+    {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    },
+  );
+
+  return {
+    count: Number(response.data?.count ?? response.data?.schedules?.length ?? 0),
+    isPublished: Boolean(response.data?.isPublished ?? payload.isPublished),
+    schedules: Array.isArray(response.data?.schedules) ? response.data.schedules : [],
+  };
 };
 
 export const getMyExpertSchedules = async (params?: IExpertAvailabilityQueryParams) => {
@@ -47,7 +75,12 @@ export const updateMyExpertSchedules = async (
 ): Promise<{ success: boolean }> => {
   const response = await httpClient.put<{ success: boolean }>(
     "/expert-schedules/my",
-    payload,
+    buildFormUrlEncodedPayload(payload),
+    {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    },
   );
 
   return response.data;

@@ -72,7 +72,7 @@ export default function BookSessionPanel({
 
   return (
     <>
-      <Card className="border-fuchsia-200/70 shadow-lg shadow-fuchsia-500/5" id="book-session">
+      <Card className="scroll-mt-24 border-fuchsia-200/70 shadow-lg shadow-fuchsia-500/5" id="book-session">
         <CardHeader className="space-y-4">
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div>

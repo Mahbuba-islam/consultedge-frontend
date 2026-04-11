@@ -39,25 +39,37 @@ export const expertNavItems: NavSection[] = [
     title: "Expert Management",
     items: [
        {
-        title: "Set Availability",
-        href: "/expert/dashboard/set-availability",
+        title: "Availability",
         icon: "Clock",
+        href: "",
+        children: [
+          {
+            title: "Create Slots",
+            href: "/expert/dashboard/set-availability",
+            icon: "PlusCircle",
+          },
+          {
+            title: "View Published Slots",
+            href: "/expert/dashboard/my-schedules",
+            icon: "CalendarDays",
+          },
+        ],
       },
       {
         title: "My Clients",
         href: "/expert/dashboard/my-clients",
         icon: "Users",
       },
-      {
-        title: "My Schedules",
-        href: "/expert/dashboard/my-schedules",
-        icon: "Clock",
-      },
      
       {
         title: "My Reviews",
         href: "/expert/dashboard/my-reviews",
         icon: "Star",
+      },
+      {
+        title: "Messages",
+        href: "/expert/dashboard/messages",
+        icon: "MessageCircleMore",
       },
     ],
   },
@@ -90,11 +102,7 @@ export const adminNavItems: NavSection[] = [
         href: "/admin/dashboard/bookings-management",
         icon: "Calendar",
       },
-      {
-        title: "Schedules",
-        href: "/admin/dashboard/schedule-management",
-        icon: "Clock",
-      },
+     
       {
         title: "Industries",
         icon: "Folder",
@@ -119,6 +127,11 @@ export const adminNavItems: NavSection[] = [
         href: "/admin/dashboard/reviews-management",
         icon: "Star",
       },
+      {
+        title: "Messages",
+        href: "/admin/dashboard/messages",
+        icon: "MessageCircleMore",
+      },
     ],
   },
 ];
@@ -133,13 +146,11 @@ export const clientNavItems: NavSection[] = [
         href: "/dashboard/my-bookings",
         icon: "Calendar",
       },
-   
       {
-        title: "My Profile",
-        href: "/dashboard/profile",
-        icon: "User",
+        title: "Messages",
+        href: "/dashboard/chat",
+        icon: "MessageCircleMore",
       },
-   
     ],
   },
  

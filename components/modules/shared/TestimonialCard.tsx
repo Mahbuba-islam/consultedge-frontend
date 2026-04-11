@@ -1,5 +1,5 @@
 import { format } from "date-fns";
-import { Quote, Star } from "lucide-react";
+import { MessageSquareReply, Quote, Star } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -11,15 +11,21 @@ interface TestimonialCardProps {
 }
 
 const getReviewerName = (testimonial: ITestimonial) =>
-  testimonial.client?.fullName ||
-  testimonial.client?.user?.name ||
-  "Verified Client";
+  testimonial.client?.fullName || testimonial.client?.user?.name || "Verified Client";
+
+const getFormattedDate = (value?: string) => {
+  if (!value) {
+    return null;
+  }
+
+  const parsedDate = new Date(value);
+  return Number.isNaN(parsedDate.getTime()) ? null : format(parsedDate, "dd MMM yyyy");
+};
 
 const TestimonialCard = ({ testimonial, compact = false }: TestimonialCardProps) => {
   const reviewerName = getReviewerName(testimonial);
-  const reviewDate = testimonial.createdAt
-    ? format(new Date(testimonial.createdAt), "dd MMM yyyy")
-    : "Recently";
+  const reviewDate = getFormattedDate(testimonial.createdAt) || "Recently";
+  const replyDate = getFormattedDate(testimonial.repliedAt);
 
   return (
     <Card className="h-full border-border/60 bg-card/95 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
@@ -51,11 +57,33 @@ const TestimonialCard = ({ testimonial, compact = false }: TestimonialCardProps)
           {testimonial.comment || "A positive consultation experience shared by the client."}
         </p>
 
-        {testimonial.expert?.fullName ? (
-          <Badge variant="secondary" className="bg-violet-100 text-violet-700">
-            For {testimonial.expert.fullName}
-          </Badge>
+        {testimonial.expertReply ? (
+          <div className="rounded-2xl border border-violet-200/70 bg-violet-50/70 p-3">
+            <div className="flex items-center justify-between gap-2">
+              <p className="inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-wide text-violet-700">
+                <MessageSquareReply className="size-3.5" />
+                Expert reply
+              </p>
+              {replyDate ? <span className="text-xs text-muted-foreground">{replyDate}</span> : null}
+            </div>
+
+            <p className="mt-2 text-sm leading-6 text-foreground/90">{testimonial.expertReply}</p>
+          </div>
         ) : null}
+
+        <div className="flex flex-wrap gap-2">
+          {testimonial.expert?.fullName ? (
+            <Badge variant="secondary" className="bg-violet-100 text-violet-700">
+              For {testimonial.expert.fullName}
+            </Badge>
+          ) : null}
+
+          {testimonial.isHidden ? (
+            <Badge variant="outline" className="border-amber-200 text-amber-700">
+              Hidden from public view
+            </Badge>
+          ) : null}
+        </div>
       </CardContent>
     </Card>
   );

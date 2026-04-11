@@ -80,12 +80,25 @@ export interface IExpertAvailability {
 }
 
 export interface ICreateAvailabilitySlotPayload {
-  startDateTime: string;
-  endDateTime: string;
+  startDate: string;
+  endDate: string;
+  startTime: string;
+  endTime: string;
 }
 
 export interface IAssignExpertAvailabilityPayload {
   scheduleIds: string[];
+}
+
+export interface IPublishExpertAvailabilityPayload {
+  scheduleIds: string[];
+  isPublished: boolean;
+}
+
+export interface IPublishExpertAvailabilityResponse {
+  count: number;
+  isPublished: boolean;
+  schedules: IExpertAvailability[];
 }
 
 export interface IUpdateExpertAvailabilityPayload {

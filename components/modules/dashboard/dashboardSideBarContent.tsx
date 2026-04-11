@@ -50,7 +50,8 @@ const DashboardSidebarContent = ({dashboardHome, navItems, userInfo} : Dashboard
 
   // If item has children → dropdown
   if (item.children && item.children.length > 0) {
-    const isOpen = openDropdown === item.title;
+    const hasActiveChild = item.children.some((child) => pathname === child.href);
+    const isOpen = openDropdown === item.title || hasActiveChild;
 
     return (
       <div key={id} className="space-y-1">

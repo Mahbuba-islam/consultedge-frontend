@@ -7,6 +7,10 @@ export interface ITestimonial {
   consultationId: string;
   createdAt: string;
   updatedAt?: string;
+  isHidden?: boolean;
+  expertReply?: string | null;
+  repliedAt?: string;
+  moderationStatus?: string;
   client?: {
     id?: string;
     fullName?: string;

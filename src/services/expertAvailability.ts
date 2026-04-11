@@ -1,3 +1,4 @@
+import { buildFormUrlEncodedPayload } from "../lib/axious/buildFormUrlEncodedPayload";
 import { httpClient } from "../lib/axious/httpClient";
 import type { ApiResponse } from "../types/api.types";
 import type {
@@ -6,6 +7,8 @@ import type {
   ICreateAvailabilitySlotPayload,
   IExpertAvailability,
   IExpertAvailabilityQueryParams,
+  IPublishExpertAvailabilityPayload,
+  IPublishExpertAvailabilityResponse,
   IUpdateExpertAvailabilityPayload,
 } from "../types/expert.types";
 
@@ -25,37 +28,49 @@ const createFallbackResponse = <TData,>(
   email: "",
 });
 
-const normalizeCreatedSlot = (
+const normalizeCreatedSlots = (
   data: IAvailabilitySlot | IAvailabilitySlot[] | null | undefined,
-): IAvailabilitySlot => {
-  const slot = Array.isArray(data) ? data[0] : data;
+): IAvailabilitySlot[] => {
+  const slots = Array.isArray(data) ? data.filter((slot) => Boolean(slot?.id)) : data?.id ? [data] : [];
 
-  if (!slot?.id) {
+  if (!slots.length) {
     throw new Error("Schedule slot creation failed. Please try again.");
   }
 
-  return slot;
+  return slots;
 };
 
 export const createScheduleSlot = async (
   payload: ICreateAvailabilitySlotPayload,
-): Promise<IAvailabilitySlot> => {
+): Promise<IAvailabilitySlot[]> => {
+  const encodedPayload = buildFormUrlEncodedPayload(payload);
+
   try {
     const response = await httpClient.post<IAvailabilitySlot | IAvailabilitySlot[]>(
       "/schedules",
-      payload,
-      { silent: true },
+      encodedPayload,
+      {
+        silent: true,
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      },
     );
 
-    return normalizeCreatedSlot(response.data);
+    return normalizeCreatedSlots(response.data);
   } catch (error: any) {
     if (error?.response?.status === 404) {
       try {
         const fallbackResponse = await httpClient.post<
           IAvailabilitySlot | IAvailabilitySlot[]
-        >("/schedule", payload, { silent: true });
+        >("/schedule", encodedPayload, {
+          silent: true,
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        });
 
-        return normalizeCreatedSlot(fallbackResponse.data);
+        return normalizeCreatedSlots(fallbackResponse.data);
       } catch (fallbackError: any) {
         if ([401, 403, 404].includes(fallbackError?.response?.status)) {
           throw new Error(
@@ -132,14 +147,24 @@ export const getMyExpertAvailability = async (
 };
 
 export const publishExpertAvailability = async (
-  payload: IAssignExpertAvailabilityPayload,
-): Promise<IExpertAvailability[]> => {
-  const response = await httpClient.post<IExpertAvailability[]>(
-    "/expert-schedules/assign",
-    payload,
+  payload: IPublishExpertAvailabilityPayload,
+): Promise<IPublishExpertAvailabilityResponse> => {
+  const response = await httpClient.patch<IPublishExpertAvailabilityResponse>(
+    "/expert-schedules/my/publish",
+    buildFormUrlEncodedPayload(payload),
+    {
+      silent: true,
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    },
   );
 
-  return Array.isArray(response.data) ? response.data : [];
+  return {
+    count: Number(response.data?.count ?? response.data?.schedules?.length ?? 0),
+    isPublished: Boolean(response.data?.isPublished ?? payload.isPublished),
+    schedules: Array.isArray(response.data?.schedules) ? response.data.schedules : [],
+  };
 };
 
 export const updateExpertAvailability = async (
@@ -147,7 +172,12 @@ export const updateExpertAvailability = async (
 ): Promise<{ success: boolean }> => {
   const response = await httpClient.put<{ success: boolean }>(
     "/expert-schedules/my",
-    payload,
+    buildFormUrlEncodedPayload(payload),
+    {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    },
   );
 
   return response.data;
