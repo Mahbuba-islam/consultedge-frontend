@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import {
   ArrowRight,
   BadgeCheck,
@@ -20,6 +21,47 @@ import {
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+
+/* ─────────────────────────────────────────────────────────────
+   COUNT UP COMPONENT
+───────────────────────────────────────────────────────────── */
+function CountUp({
+  value,
+  duration = 1200,
+  suffix = "",
+  decimals = 0,
+}: {
+  value: number;
+  duration?: number;
+  suffix?: string;
+  decimals?: number;
+}) {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    let start = 0;
+    const startTime = performance.now();
+
+    const animate = (now: number) => {
+      const progress = Math.min((now - startTime) / duration, 1);
+      const current = start + (value - start) * progress;
+      setCount(current);
+
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      }
+    };
+
+    requestAnimationFrame(animate);
+  }, [value, duration]);
+
+  return (
+    <span>
+      {decimals > 0 ? count.toFixed(decimals) : Math.floor(count)}
+      {suffix}
+    </span>
+  );
+}
 
 const steps = [
   {
@@ -109,11 +151,14 @@ const whyCards = [
   },
 ];
 
+/* ─────────────────────────────────────────────────────────────
+   UPDATED STATS (for animation)
+───────────────────────────────────────────────────────────── */
 const stats = [
-  { value: "500+", label: "Verified experts" },
-  { value: "12k+", label: "Sessions completed" },
-  { value: "4.9", label: "Average rating" },
-  { value: "98%", label: "Satisfaction rate" },
+  { value: 500, suffix: "+", label: "Verified experts" },
+  { value: 12000, suffix: "+", label: "Sessions completed" },
+  { value: 4.9, suffix: "", label: "Average rating", decimals: 1 },
+  { value: 98, suffix: "%", label: "Satisfaction rate" },
 ];
 
 export default function HowItWorksPage() {
@@ -138,17 +183,19 @@ export default function HowItWorksPage() {
         </p>
       </section>
 
-      {/* ── Stats strip ─────────────────────────────────────────────── */}
+      {/* ── Stats strip (ANIMATED) ─────────────────────────────────── */}
       <section className="grid grid-cols-2 gap-4 md:grid-cols-4">
-        {stats.map(({ value, label }) => (
+        {stats.map(({ value, label, suffix, decimals }) => (
           <div
             key={label}
             className="rounded-2xl border border-slate-100 bg-white py-6 text-center shadow-sm dark:border-slate-800 dark:bg-slate-900"
           >
             <p className="bg-linear-to-r from-blue-600 via-cyan-500 to-sky-500 bg-clip-text text-3xl font-extrabold text-transparent md:text-4xl">
-              {value}
+              <CountUp value={value} suffix={suffix} decimals={decimals ?? 0} />
             </p>
-            <p className="mt-1 text-xs font-medium text-slate-500 dark:text-slate-400">{label}</p>
+            <p className="mt-1 text-xs font-medium text-slate-500 dark:text-slate-400">
+              {label}
+            </p>
           </div>
         ))}
       </section>
@@ -170,7 +217,6 @@ export default function HowItWorksPage() {
               key={number}
               className="group relative overflow-hidden rounded-[24px] border border-slate-100 bg-white p-7 shadow-sm transition-shadow hover:shadow-md dark:border-slate-800 dark:bg-slate-900"
             >
-              {/* soft bg tint on hover */}
               <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100 bg-[radial-gradient(ellipse_at_top_left,rgba(59,130,246,0.04),transparent_60%)]" />
 
               <div className="relative space-y-4">
@@ -194,7 +240,10 @@ export default function HowItWorksPage() {
 
                 <ul className="space-y-1.5">
                   {highlights.map((h) => (
-                    <li key={h} className="flex items-center gap-2 text-sm font-medium text-slate-700 dark:text-slate-300">
+                    <li
+                      key={h}
+                      className="flex items-center gap-2 text-sm font-medium text-slate-700 dark:text-slate-300"
+                    >
                       <CheckCircle2 className="size-3.5 shrink-0 text-blue-500" />
                       {h}
                     </li>
@@ -239,16 +288,11 @@ export default function HowItWorksPage() {
 
       {/* ── CTA banner ──────────────────────────────────────────────── */}
       <section className="relative overflow-hidden rounded-[28px] bg-slate-950 px-8 py-14 shadow-[0_40px_100px_-24px_rgba(59,130,246,0.4)] md:py-20">
-        {/* gradient orbs */}
         <div className="pointer-events-none absolute -left-24 -top-24 size-96 rounded-full bg-blue-600/30 blur-[90px]" />
         <div className="pointer-events-none absolute -bottom-20 right-0 size-80 rounded-full bg-sky-500/25 blur-[80px]" />
         <div className="pointer-events-none absolute left-1/2 top-1/2 size-64 -translate-x-1/2 -translate-y-1/2 rounded-full bg-cyan-500/20 blur-[70px]" />
 
-        {/* grid texture */}
-        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-size-[40px_40px]" />
-
         <div className="relative flex flex-col items-center gap-8 text-center">
-          {/* badge */}
           <span className="inline-flex items-center gap-1.5 rounded-full border border-blue-500/30 bg-blue-500/10 px-3.5 py-1.5 text-xs font-semibold tracking-wide text-blue-300">
             <Sparkles className="size-3" />
             Start in under 2 minutes
@@ -278,6 +322,7 @@ export default function HowItWorksPage() {
                 <ArrowRight className="ml-2 size-4" />
               </Link>
             </Button>
+
             <Button
               asChild
               size="lg"
@@ -291,7 +336,6 @@ export default function HowItWorksPage() {
             </Button>
           </div>
 
-          {/* social proof strip */}
           <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs text-slate-500">
             <span className="flex items-center gap-1.5">
               <CheckCircle2 className="size-3.5 text-blue-400" />

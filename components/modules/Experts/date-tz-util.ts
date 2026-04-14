@@ -1,2 +1,2 @@
-import { utcToZonedTime } from "date-fns-tz";
-export { utcToZonedTime };
+import { toZonedTime } from "date-fns-tz";
+export { toZonedTime as utcToZonedTime };

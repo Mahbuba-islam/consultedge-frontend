@@ -39,6 +39,7 @@ const engagementOptions = [
     accent: "from-emerald-50 to-white",
     href: "/contact",
     cta: "Talk to us",
+    featured: true,
   },
 ];
 
@@ -109,7 +110,7 @@ export default function HomeSection3() {
             <Card
               key={option.name}
               style={{ animationDelay: `${90 + index * 90}ms` }}
-              className={`consultedge-reveal--visible consultedge-card-glow border-border/60 bg-linear-to-br ${option.accent} shadow-sm dark:border-white/10 dark:from-slate-900 dark:to-slate-950 dark:shadow-black/20 ${
+              className={`consultedge-reveal--visible consultedge-card-glow border-border/60  ${option.accent} shadow-sm dark:border-white/10 dark:from-slate-900 dark:to-slate-950 dark:shadow-black/20 ${
                 option.featured ? "ring-2 ring-blue-200 dark:ring-blue-500/40" : ""
               }`}
             >
@@ -131,19 +132,36 @@ export default function HomeSection3() {
                   </div>
                 ))}
 
-                <Link href={option.href}>
-                  <Button
-                    className={`mt-2 w-full ${
-                      option.featured
-                        ? "bg-blue-600 hover:bg-blue-700"
-                        : "bg-slate-900 hover:bg-slate-800"
-                    }`}
-                  >
-                    {option.cta}
-                    <ArrowRight className="ml-2 size-4" />
-                  </Button>
-                </Link>
+              {/* <Button
+  asChild
+  className={`mt-2 w-full ${
+    option.featured
+      ? "bg-blue-600 hover:bg-blue-700"
+      : "bg-slate-900 hover:bg-slate-800"
+  }`}
+>
+  <Link href={option.href}>
+    {option.cta}
+    <ArrowRight className="ml-2 size-4" />
+  </Link>
+</Button> */}
+<div className="mt-2 w-full">
+  <Link href={option.href} className="block">
+    <Button
+      className={`w-full ${
+        option.featured
+          ? "bg-blue-600 hover:bg-blue-700"
+          : "bg-slate-900 hover:bg-slate-800"
+      }`}
+    >
+      {option.cta}
+      <ArrowRight className="ml-2 size-4" />
+    </Button>
+  </Link>
+</div>
+ 
               </CardContent>
+            
             </Card>
           ))}
         </div>
@@ -197,7 +215,7 @@ export default function HomeSection3() {
       </section>
 
       <section className="relative overflow-hidden rounded-[2rem] border border-slate-900 bg-linear-to-r from-slate-950 via-blue-950 to-cyan-950 p-6 text-white shadow-xl md:p-10">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.08),transparent_35%)]" />
+        <div className=" bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.08),transparent_35%)]" />
 
         <div className="relative flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
           <div className="space-y-3">

@@ -1,10 +1,7 @@
-"use client";
-
 import { useMemo } from "react";
 
 import TestimonialCard from "@/components/modules/shared/TestimonialCard";
 import { Card, CardContent } from "@/components/ui/card";
-import { useReviewOverrides } from "@/src/hooks/useReviewOverrides";
 import type { ITestimonial } from "@/src/types/testimonial.types";
 
 interface ExpertTestimonialsSectionProps {
@@ -14,18 +11,20 @@ interface ExpertTestimonialsSectionProps {
 export default function ExpertTestimonialsSection({
   testimonials,
 }: ExpertTestimonialsSectionProps) {
-  const { mergedReviews } = useReviewOverrides(testimonials);
-
-  const visibleReviews = useMemo(
-    () => mergedReviews.filter((review) => !review.isHidden),
-    [mergedReviews],
-  );
+  const visibleReviews = useMemo(() => {
+    return testimonials
+      .filter((review) => !review.isHidden) // only if backend supports it
+      .slice(0, 3);
+  }, [testimonials]);
 
   return (
     <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
       {visibleReviews.length > 0 ? (
-        visibleReviews.slice(0, 3).map((testimonial) => (
-          <TestimonialCard key={testimonial.id} testimonial={testimonial} />
+        visibleReviews.map((testimonial) => (
+          <TestimonialCard
+            key={testimonial.id}
+            testimonial={testimonial}
+          />
         ))
       ) : (
         <Card className="md:col-span-2 xl:col-span-3">

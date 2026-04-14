@@ -6,7 +6,7 @@ import NavbarClient from "./NavbarClient";
 const baseNavItems = [
   { label: "Home", href: "/" },
   { label: "Experts", href: "/experts" },
-  { label: "Industries", href: "/industries" },
+  { label: "Process", href: "/process" },
   { label: "Contact", href: "/contact" },
 ];
 

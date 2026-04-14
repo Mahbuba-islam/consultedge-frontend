@@ -66,7 +66,7 @@ export default function PaymentSuccessContent() {
     params.set("status", status || "success");
 
     const query = params.toString();
-    return query ? `/dashboard/consultations?${query}` : "/dashboard/consultations";
+    return query ? `/dashboard/success?${query}` : "/dashboard/success";
   }, [amount, consultationId, paymentId, status, transactionId]);
 
   const { data, isLoading, refetch, isFetching } = useQuery({

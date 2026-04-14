@@ -1,4 +1,6 @@
 import { httpClient } from "../lib/axious/httpClient";
+import { ApiResponse } from "../types/api.types";
+
 import type { ITestimonial } from "../types/testimonial.types";
 
 // ------------------------------
@@ -70,27 +72,73 @@ export const getAllTestimonials = async (
 // ------------------------------
 // GET TESTIMONIALS BY EXPERT
 // ------------------------------
+// export const getTestimonialsByExpert = async (
+//   expertId: string
+// ): Promise<ITestimonial[]> => {
+//   if (!expertId) return [];
+
+//   try {
+//     return await requestTestimonials(`/testimonials/expert/${expertId}`);
+//   } catch (error: any) {
+//     const status = error?.response?.status;
+
+//     // ✅ treat "not found" as empty list (normal case)
+//     if (status === 404) {
+//       return [];
+//     }
+
+//     // ❌ everything else is a real error
+//     throw error;
+//   }
+// };
+
+
 export const getTestimonialsByExpert = async (
   expertId: string
 ): Promise<ITestimonial[]> => {
-  if (!expertId) return [];
+  const res = await httpClient.get<any>(
+    `/testimonials/expert/${expertId}`
+  );
 
-  try {
-    return await requestTestimonials(`/testimonials/expert/${expertId}`);
-  } catch (error: any) {
-    if (error?.response?.status === 404) {
-      try {
-        return await requestTestimonials(`/testimonials/expert/${expertId}`);
-      } catch (fallbackError: any) {
-        if (fallbackError?.response?.status === 404) {
-          return [];
-        }
-        throw fallbackError;
-      }
-    }
-    throw error;
-  }
+  console.log("FINAL RES:", res);
+
+  // 🔥 handle all cases safely
+  const data =
+    res?.data?.data ??
+    res?.data ??
+    res;
+
+  return Array.isArray(data) ? data : [];
 };
+
+
+
+// ------------------------------
+// REPLY TO TESTIMONIAL
+export const replyToTestimonial = async (
+  testimonialId: string,
+  payload: { expertReply: string }
+): Promise<ApiResponse<ITestimonial>> => {
+  if (!testimonialId) {
+    throw new Error("Testimonial ID is required.");
+  }
+
+  const response = await httpClient.patch<ApiResponse<ITestimonial>>(
+    `/testimonials/${testimonialId}/reply`,
+    payload
+  );
+
+  return response.data;
+};
+
+
+
+
+
+
+
+
+
 
 // ------------------------------
 // DELETE TESTIMONIAL

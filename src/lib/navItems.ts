@@ -156,6 +156,7 @@ export const clientNavItems: NavSection[] = [
         href: "/dashboard/chat",
         icon: "MessageCircleMore",
       },
+      
     ],
   },
  
