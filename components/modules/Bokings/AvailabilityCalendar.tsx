@@ -250,13 +250,13 @@ export default function AvailabilityCalendar({
                   </div>
 
                   {nextAvailableSlot && getSlotStartDateTime(nextAvailableSlot) ? (
-                    <div className="rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-700">
+                    <div className="max-w-full rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-700 wrap-break-word">
                       Next open: {format(parseDateSafe(getSlotStartDateTime(nextAvailableSlot)) as Date, "MMM d, h:mm a")}
                     </div>
                   ) : null}
                 </div>
 
-                <div className="grid gap-3 sm:grid-cols-2">
+                <div className="grid gap-3 2xl:grid-cols-2">
                   {selectedDaySlots.length > 0 ? (
                     selectedDaySlots.map((slot) => (
                       <BookingCard
@@ -267,7 +267,7 @@ export default function AvailabilityCalendar({
                       />
                     ))
                   ) : (
-                    <div className="rounded-2xl border border-dashed p-5 text-sm text-muted-foreground sm:col-span-2">
+                    <div className="rounded-2xl border border-dashed p-5 text-sm text-muted-foreground 2xl:col-span-2">
                       No open slots on this day yet. Please choose another highlighted date.
                     </div>
                   )}

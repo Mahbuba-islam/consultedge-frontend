@@ -30,12 +30,12 @@ export default function ProfileContent() {
   }
 
   return (
-    <div className="max-w-3xl mx-auto space-y-6">
+    <div className="w-full max-w-3xl mx-auto px-4 sm:px-6 space-y-6">
       {/* Header Card */}
       <Card className="shadow-sm border">
-        <CardHeader className="flex flex-row items-center justify-between">
+        <CardHeader className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <CardTitle className="text-2xl font-semibold">
+            <CardTitle className="text-xl sm:text-2xl font-semibold">
               My Profile
             </CardTitle>
             <p className="text-sm text-muted-foreground">
@@ -43,11 +43,16 @@ export default function ProfileContent() {
             </p>
           </div>
 
-          <div className="flex gap-2">
-            <Link href="/my-profile/update-profile">
-              <Button variant="outline">Edit Profile</Button>
+          <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+            <Link href="/my-profile/update-profile" className="w-full sm:w-auto">
+              <Button variant="outline" className="w-full sm:w-auto">
+                Edit Profile
+              </Button>
             </Link>
-            <Button variant="default">Change Password</Button>
+
+            <Button variant="default" className="w-full sm:w-auto">
+              Change Password
+            </Button>
           </div>
         </CardHeader>
       </Card>
@@ -60,14 +65,17 @@ export default function ProfileContent() {
             <h3 className="text-lg font-semibold">Basic Information</h3>
             <Separator />
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <ProfileField label="Full Name" value={user.name} />
               <ProfileField label="Email" value={user.email} />
               <ProfileField
                 label="Role"
                 value={user.role.toLowerCase().replace("_", " ")}
               />
-              <ProfileField label="Account Status" value={user.status ?? "Active"} />
+              <ProfileField
+                label="Account Status"
+                value={user.status ?? "Active"}
+              />
             </div>
           </div>
 
@@ -77,7 +85,7 @@ export default function ProfileContent() {
               <h3 className="text-lg font-semibold">Expert Details</h3>
               <Separator />
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <ProfileField
                   label="Industry"
                   value={user.expert?.industry?.name}
@@ -92,12 +100,12 @@ export default function ProfileContent() {
                   }
                 />
               </div>
-              
+
               <Link href="/expert/dashboard">
-              <Button className="mt-3" variant="secondary">
-                View Expert Dashboard
-              </Button>
-            </Link>
+                <Button className="mt-3 w-full sm:w-auto" variant="secondary">
+                  View Expert Dashboard
+                </Button>
+              </Link>
             </div>
           )}
 
@@ -110,7 +118,7 @@ export default function ProfileContent() {
               <ProfileField label="Client Name" value={user.client?.fullName} />
 
               <Link href="/client/bookings">
-                <Button className="mt-3" variant="secondary">
+                <Button className="mt-3 w-full sm:w-auto" variant="secondary">
                   View Bookings
                 </Button>
               </Link>
@@ -119,7 +127,7 @@ export default function ProfileContent() {
 
           {user.role === "ADMIN" && (
             <Link href="/admin/dashboard">
-              <Button className="mt-3" variant="secondary">
+              <Button className="mt-3 w-full sm:w-auto" variant="secondary">
                 Go to Admin Panel
               </Button>
             </Link>
@@ -131,9 +139,15 @@ export default function ProfileContent() {
 }
 
 /* Reusable Field Component */
-function ProfileField({ label, value }: { label: string; value?: string }) {
+function ProfileField({
+  label,
+  value,
+}: {
+  label: string;
+  value?: string;
+}) {
   return (
-    <div>
+    <div className="break-words">
       <p className="text-xs text-muted-foreground">{label}</p>
       <p className="text-base font-medium">{value || "—"}</p>
     </div>

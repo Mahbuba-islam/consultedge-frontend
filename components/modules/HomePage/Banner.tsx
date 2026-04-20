@@ -146,20 +146,21 @@ export default function Banner() {
               </div>
 
               <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-                <Link href="/experts">
-                  <Button className="h-11 rounded-full bg-white px-5 text-slate-900 hover:bg-white/90">
+                <Button asChild className="h-11 rounded-full bg-white px-5 text-slate-900 hover:bg-white/90">
+                  <Link href="/experts">
                     Explore experts
                     <ArrowRight className="ml-2 size-4" />
-                  </Button>
-                </Link>
-                <Link href="/apply-expert">
-                  <Button
+                  </Link>
+                </Button>
+                <Button
+                  asChild
                     variant="outline"
                     className="h-11 rounded-full border-white/30 bg-transparent px-5 text-white hover:bg-white/10 hover:text-white"
                   >
+                  <Link href="/apply-expert">
                     Become an expert
-                  </Button>
-                </Link>
+                  </Link>
+                </Button>
               </div>
 
               <div className="grid gap-3 sm:grid-cols-3">

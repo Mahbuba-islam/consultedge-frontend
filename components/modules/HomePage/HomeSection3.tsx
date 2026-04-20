@@ -133,18 +133,19 @@ export default function HomeSection3() {
                 ))}
 
 <div className="mt-2 w-full">
-  <Link href={option.href} className="block">
-    <Button
-      className={`w-full ${
-        option.featured
-          ? "bg-blue-600 hover:bg-blue-700"
-          : "bg-slate-900 hover:bg-slate-800"
-      }`}
-    >
+  <Button
+    asChild
+    className={`w-full ${
+      option.featured
+        ? "bg-blue-600 hover:bg-blue-700"
+        : "bg-slate-900 hover:bg-slate-800"
+    }`}
+  >
+    <Link href={option.href}>
       {option.cta}
       <ArrowRight className="ml-2 size-4" />
-    </Button>
-  </Link>
+    </Link>
+  </Button>
 </div>
  
               </CardContent>
@@ -241,17 +242,18 @@ export default function HomeSection3() {
           </div>
 
           <div className="flex flex-wrap gap-3">
-            <Link href="/register">
-              <Button className="bg-white text-slate-900 hover:bg-white/90">Get started</Button>
-            </Link>
-            <Link href="/contact">
-              <Button
-                variant="outline"
-                className="border-white/30 bg-transparent text-white hover:bg-white/10 hover:text-white"
-              >
+            <Button asChild className="bg-white text-slate-900 hover:bg-white/90">
+              <Link href="/register">Get started</Link>
+            </Button>
+            <Button
+              asChild
+              variant="outline"
+              className="border-white/30 bg-transparent text-white hover:bg-white/10 hover:text-white"
+            >
+              <Link href="/contact">
                 Contact us
-              </Button>
-            </Link>
+              </Link>
+            </Button>
           </div>
         </div>
       </section>

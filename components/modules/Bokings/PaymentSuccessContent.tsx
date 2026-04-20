@@ -242,21 +242,13 @@ export default function PaymentSuccessContent() {
             </div>
           )}
 
-          <div className="flex flex-wrap gap-3 pt-2">
-            {/* <Button asChild className="bg-blue-600 hover:bg-blue-700">
-              <Link href={consultationsRedirectHref}>Go to Consultations</Link>
-            </Button> */}
-            <Button asChild>
-  <Link href="/dashboard/consultations">
+          <div className="flex flex-wrap gap-3 pt-2 ">
+           <Button asChild className="px-4 ">
+    <Link href="/dashboard/consultations">
     Go to Consultations
   </Link>
-</Button>
+   </Button>
 
-            {/* <Button asChild variant="outline">
-              <Link href={consultationsRedirectHref}>
-                View Booking Details
-              </Link>
-            </Button> */}
   <Button asChild>
   <Link href="/dashboard/consultations">
     View Booking Details

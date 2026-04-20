@@ -26,16 +26,7 @@ export default function IndustryTicker({ industries }: IndustryTickerProps) {
             Start with the industries clients search most often, then move into expert profiles built for strategy, growth, operations, and decision support.
           </p>
         </div>
-
-        <div className="flex flex-col gap-3 sm:flex-row xl:justify-end">
-          <div className="rounded-2xl border border-border/60 bg-background/80 px-4 py-3 text-sm dark:border-white/10 dark:bg-slate-900/70">
-            <p className="font-semibold text-foreground">Fast discovery</p>
-            <p className="text-xs text-muted-foreground">Jump from industry to expert shortlist faster.</p>
-          </div>
-          <Link href="/industries">
-            <Button variant="outline" className="h-11 rounded-full px-5 dark:border-white/10 dark:bg-slate-950/60 dark:text-slate-100">View all industries</Button>
-          </Link>
-        </div>
+  
       </div>
 
       {tickerItems.length > 0 ? (

@@ -129,7 +129,7 @@ const NavbarClient = ({
                 >
                   <span className="relative z-10">{item.label}</span>
                   <span
-                    className="pointer-events-none absolute left-4 right-4 -bottom-1 h-[2px] w-[calc(100%-2rem)] origin-left scale-x-0 bg-gradient-to-r from-blue-500 to-cyan-400 opacity-80 transition-transform duration-250 ease-out group-hover:scale-x-100"
+                    className="pointer-events-none absolute left-4 right-4 -bottom-1 h-0.5 w-[calc(100%-2rem)] origin-left scale-x-0 bg-linear-to-r from-blue-500 to-cyan-400 opacity-80 transition-transform duration-250 ease-out group-hover:scale-x-100"
                     aria-hidden="true"
                   />
                 </Link>
@@ -179,15 +179,16 @@ const NavbarClient = ({
                   {/* Dashboard */}
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <Link href={dashboardHref}>
-                        <Button
+                      <Button
+                        asChild
                           variant="ghost"
                           size="icon"
                           className="size-9 rounded-full border border-slate-200/80 bg-white/80 text-slate-600 backdrop-blur hover:bg-blue-50 hover:text-blue-700 dark:border-white/10 dark:bg-slate-900/70 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-blue-300"
                         >
+                        <Link href={dashboardHref}>
                           <LayoutDashboard className="size-4" />
-                        </Button>
-                      </Link>
+                        </Link>
+                      </Button>
                     </TooltipTrigger>
                     <TooltipContent side="bottom" className="text-xs">
                       Dashboard
@@ -212,15 +213,16 @@ const NavbarClient = ({
                   {/* Log in */}
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <Link href="/login">
-                        <Button
+                      <Button
+                        asChild
                           variant="ghost"
                           size="icon"
                           className="size-9 rounded-full border border-slate-200/80 bg-white/80 text-slate-600 backdrop-blur hover:bg-blue-50 hover:text-blue-700 dark:border-white/10 dark:bg-slate-900/70 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-blue-300"
                         >
+                        <Link href="/login">
                           <LogIn className="size-4" />
-                        </Button>
-                      </Link>
+                        </Link>
+                      </Button>
                     </TooltipTrigger>
                     <TooltipContent side="bottom" className="text-xs">
                       Log in
@@ -228,15 +230,16 @@ const NavbarClient = ({
                   </Tooltip>
 
                   {/* Get started */}
-                  <Link href="/register">
-                    <Button
-                      size="sm"
-                      className="rounded-full bg-linear-to-r from-blue-600 to-cyan-500 px-4 text-xs font-semibold hover:from-blue-700 hover:to-cyan-600"
-                    >
+                  <Button
+                    asChild
+                    size="sm"
+                    className="rounded-full bg-linear-to-r from-blue-600 to-cyan-500 px-4 text-xs font-semibold hover:from-blue-700 hover:to-cyan-600"
+                  >
+                    <Link href="/register">
                       Get Started
                       <ArrowRight className="ml-1.5 size-3.5" />
-                    </Button>
-                  </Link>
+                    </Link>
+                  </Button>
                 </>
               )}
             </TooltipProvider>
@@ -310,12 +313,12 @@ const NavbarClient = ({
                   {isLoggedIn ? (
                     <>
                       <SheetClose asChild>
-                        <Link href={dashboardHref} className="block">
-                          <Button variant="outline" className="w-full justify-center rounded-full dark:border-white/10 dark:bg-slate-950/70 dark:text-slate-100">
+                        <Button asChild variant="outline" className="w-full justify-center rounded-full dark:border-white/10 dark:bg-slate-950/70 dark:text-slate-100">
+                          <Link href={dashboardHref}>
                             <LayoutDashboard className="mr-2 size-4" />
                             Dashboard
-                          </Button>
-                        </Link>
+                          </Link>
+                        </Button>
                       </SheetClose>
 
                       <form action={logoutAction}>
@@ -331,21 +334,21 @@ const NavbarClient = ({
                   ) : (
                     <>
                       <SheetClose asChild>
-                        <Link href="/login" className="block">
-                          <Button variant="outline" className="w-full rounded-full dark:border-white/10 dark:bg-slate-950/70 dark:text-slate-100">
+                        <Button asChild variant="outline" className="w-full rounded-full dark:border-white/10 dark:bg-slate-950/70 dark:text-slate-100">
+                          <Link href="/login">
                             <LogIn className="mr-2 size-4" />
                             Log in
-                          </Button>
-                        </Link>
+                          </Link>
+                        </Button>
                       </SheetClose>
 
                       <SheetClose asChild>
-                        <Link href="/register" className="block">
-                          <Button className="w-full rounded-full bg-linear-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600">
+                        <Button asChild className="w-full rounded-full bg-linear-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600">
+                          <Link href="/register">
                             Get Started
                             <ArrowRight className="ml-2 size-4" />
-                          </Button>
-                        </Link>
+                          </Link>
+                        </Button>
                       </SheetClose>
                     </>
                   )}

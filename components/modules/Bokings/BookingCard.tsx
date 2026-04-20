@@ -52,28 +52,30 @@ export default function BookingCard({
       disabled={disabled || slot.isBooked}
       onClick={() => onSelect?.(slot)}
       className={cn(
-        "h-auto w-full flex-col items-start gap-3 rounded-2xl border px-4 py-3 text-left transition-all duration-300 sm:flex-row sm:items-center sm:justify-between",
+        "h-auto w-full justify-start whitespace-normal rounded-2xl border px-4 py-3 text-left transition-all duration-300",
         isSelected
           ? "border-blue-500 bg-blue-600 text-white shadow-lg shadow-blue-500/20 hover:bg-blue-600"
           : "border-blue-200 bg-white/90 hover:border-blue-300 hover:bg-blue-50",
       )}
     >
-      <span className="flex min-w-0 items-center gap-2 text-sm font-medium sm:text-base">
-        <Clock3 className="size-4 shrink-0" />
-        <span className="wrap-break-word leading-6">{formatSlotTime(slot)}</span>
-      </span>
+      <div className="flex w-full flex-col gap-2">
+        <span className="flex min-w-0 items-start gap-2 text-sm font-medium sm:text-base">
+          <Clock3 className="mt-0.5 size-4 shrink-0" />
+          <span className="min-w-0 whitespace-normal leading-6">{formatSlotTime(slot)}</span>
+        </span>
 
-      <Badge
-        variant="secondary"
-        className={cn(
-          "self-start rounded-full px-3 py-1 text-[10px] uppercase tracking-wide sm:self-center",
-          isSelected
-            ? "bg-white/20 text-white"
-            : "bg-emerald-100 text-emerald-700",
-        )}
-      >
-        {statusLabel}
-      </Badge>
+        <Badge
+          variant="secondary"
+          className={cn(
+            "h-auto self-start rounded-full px-3 py-1 text-[10px] uppercase tracking-wide whitespace-normal",
+            isSelected
+              ? "bg-white/20 text-white"
+              : "bg-emerald-100 text-emerald-700",
+          )}
+        >
+          {statusLabel}
+        </Badge>
+      </div>
     </Button>
   );
 }

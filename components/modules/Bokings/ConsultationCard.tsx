@@ -285,95 +285,94 @@ const handleConfirmEnd = async () => {
             </div>
           </div>
 
-          <div className="flex flex-wrap gap-3 justify-center">
-            {booking.expert?.id ? (
-              <Button asChild variant="outline">
-                <Link href={`/experts/${booking.expert.id}`}>
-                  <ArrowUpRight className="mr-2 size-4" />
-                  View expert
-                </Link>
-              </Button>
-            ) : null}
+         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full">
 
-            {booking.expert?.id ? (
-              <Button asChild variant="ghost">
-                <Link href={`/dashboard/chat?expertId=${booking.expert.id}`}>
-                  <MessageCircleMore className="mr-2 size-4" />
-                  Message
-                </Link>
-              </Button>
-            ) : null}
+  {booking.expert?.id && (
+    <Button asChild variant="outline" className="w-full">
+      <Link href={`/experts/${booking.expert.id}`}>
+        <ArrowUpRight className="mr-2 size-4" />
+        View expert
+      </Link>
+    </Button>
+  )}
 
-            <Button asChild variant="ghost">
-              <Link href={`/dashboard/consultations?consultationId=${booking.id}`}>
-                <ReceiptText className="mr-2 size-4" />
-                View details
-              </Link>
-            </Button>
-{/* Completed → Review Session */}
-{/* If completed and NOT reviewed → show Review button */}
-{isCompleted && !hasReview && (
-  <Button
-    variant="secondary"
-    className="bg-emerald-600 text-white hover:bg-emerald-700"
-    onClick={() => setReviewOpen(true)}
-  >
-    Review Session
+  {booking.expert?.id && (
+    <Button asChild variant="outline" className="w-full">
+      <Link href={`/dashboard/chat?expertId=${booking.expert.id}`}>
+        <MessageCircleMore className="mr-2 size-4" />
+        Message
+      </Link>
+    </Button>
+  )}
+
+  <Button asChild variant="outline" className="w-full">
+    <Link href={`/dashboard/consultations?consultationId=${booking.id}`}>
+      <ReceiptText className="mr-2 size-4" />
+      View details
+    </Link>
   </Button>
-)}
 
-{/* If completed AND reviewed → show Reviewed badge */}
-{isCompleted && hasReview && (
-  <Badge className="bg-emerald-100 text-emerald-700 text-sm font-semi-bold p-2">
-    Feedback Submitted
-  </Badge>
-)}
+  {/* Completed → Review Session */}
+  {isCompleted && !hasReview && (
+    <Button
+      variant="secondary"
+      className="w-full bg-emerald-600 text-white hover:bg-emerald-700"
+      onClick={() => setReviewOpen(true)}
+    >
+      Review Session
+    </Button>
+  )}
 
-{/* Confirmed, paid, not completed */}
-{isConfirmed && !isCompleted && (
-  <>
-    {isPast ? (
-      <>
-      
+  {isCompleted && hasReview && (
+    <Badge className="w-full text-center bg-emerald-100 text-emerald-700 text-sm font-semibold p-2">
+      Feedback Submitted
+    </Badge>
+  )}
+
+  {/* Confirmed, paid, not completed */}
+  {isConfirmed && !isCompleted && (
+    <>
+      {isPast ? (
         <Button
           variant="outline"
-          className="border-red-300 text-red-700 hover:bg-red-50"
-         onClick={() => onOpenReschedule?.(booking)}
+          className="w-full border-red-300 text-red-700 hover:bg-red-50"
+          onClick={() => onOpenReschedule?.(booking)}
         >
           Reschedule
         </Button>
-      </>
-    ) : (
-      <Button
-        variant="default"
-        className="bg-blue-600 text-white hover:bg-blue-700"
-        onClick={() => setJoinOpen(true)}
-      >
-        Join Session
-      </Button>
-    )}
-  </>
-)}
+      ) : (
+        <Button
+          variant="default"
+          className="w-full bg-blue-600 text-white hover:bg-blue-700"
+          onClick={() => setJoinOpen(true)}
+        >
+          Join Session
+        </Button>
+      )}
+    </>
+  )}
 
+  {canPayNow && (
+    <Button
+      className="w-full bg-blue-600 hover:bg-blue-700"
+      onClick={() => onPayNow(booking.id)}
+    >
+      {isPaying ? (
+        <>
+          <Loader2 className="mr-2 size-4 animate-spin" />
+          Processing...
+        </>
+      ) : (
+        <>
+          <CreditCard className="mr-2 size-4" />
+          Pay now
+        </>
+      )}
+    </Button>
+  )}
 
-         
+</div>
 
-            {canPayNow ? (
-              <Button className="bg-blue-600 hover:bg-blue-700" onClick={() => onPayNow(booking.id)}>
-                {isPaying ? (
-                  <>
-                    <Loader2 className="mr-2 size-4 animate-spin" />
-                    Processing...
-                  </>
-                ) : (
-                  <>
-                    <CreditCard className="mr-2 size-4" />
-                    Pay now
-                  </>
-                )}
-              </Button>
-            ) : null}
-          </div>
         </CardContent>
       </Card>
 

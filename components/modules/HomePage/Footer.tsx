@@ -18,7 +18,7 @@ import { Button } from "@/components/ui/button";
 const quickLinks = [
   { label: "Home", href: "/" },
   { label: "Experts", href: "/experts" },
-  { label: "How it works", href: "/industries" },
+  { label: "How it works", href: "/process" },
   { label: "Contact", href: "/contact" },
 ];
 
@@ -139,15 +139,9 @@ export default function Footer() {
                 })}
               </div>
             </div>
-   
+            
             <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:flex-wrap">
-              <Button asChild className="h-11 w-full rounded-full bg-white px-5 text-sm text-slate-900 hover:bg-white/90 sm:w-auto">
-                <Link href="/experts">
-                  Browse experts
-                  <ArrowRight className="ml-2 size-4" />
-                </Link>
-              </Button>
-
+             
               <Button
                 asChild
                 variant="outline"

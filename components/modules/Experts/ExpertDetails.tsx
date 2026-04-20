@@ -340,9 +340,7 @@ export default function ExpertDetails({
               <p className="text-sm text-muted-foreground">{expert.phone || "Phone not provided"}</p>
             </div>
 
-            <Button asChild className="w-full bg-blue-600 hover:bg-blue-700">
-              <Link href="/experts">Explore more experts</Link>
-            </Button>
+           
           </CardContent>
         </Card>
       </div>

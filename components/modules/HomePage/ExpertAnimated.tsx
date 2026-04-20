@@ -61,10 +61,7 @@ export default function ExpertAnimated({ experts }: ExpertAnimatedProps) {
             <p className="mt-2 text-lg font-semibold text-foreground">
               Profiles optimized for faster scanning on desktop and mobile.
             </p>
-            <Link href="/experts" className="mt-4 inline-flex items-center text-sm font-medium text-blue-700 transition hover:text-blue-800 dark:text-blue-300 dark:hover:text-blue-200">
-              Browse the full expert network
-              <ArrowRight className="ml-2 size-4" />
-            </Link>
+          
           </div>
         </div>
 

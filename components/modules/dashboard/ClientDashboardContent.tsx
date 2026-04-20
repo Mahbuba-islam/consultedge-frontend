@@ -105,7 +105,7 @@ const ClientDashboardContent = () => {
             <Link href="/my-profile">
               <Button
                 variant="outline"
-                className="border-white/30 bg-transparent text-white hover:bg-white/10 hover:text-white"
+                className="border-white/30 bg-transparent px-4 text-white hover:bg-white/10 hover:text-white"
               >
                 My Profile
               </Button>

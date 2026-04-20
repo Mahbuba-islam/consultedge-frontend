@@ -51,61 +51,121 @@ const RecentConsultationsTable = ({
   description = "Live consultation overview generated from the latest dashboard status data.",
 }: RecentConsultationsTableProps) => {
   const rows = [...(data || [])]
-    .sort((left, right) => Number(right.count || 0) - Number(left.count || 0))
+    .sort((a, b) => Number(b.count || 0) - Number(a.count || 0))
     .slice(0, 5);
 
   return (
-    <Card className="border-border/60 shadow-sm">
+    <Card className="border-border/60 shadow-sm w-full">
       <CardHeader>
         <CardTitle>{title}</CardTitle>
         <CardDescription>{description}</CardDescription>
       </CardHeader>
+
       <CardContent>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Status</TableHead>
-              <TableHead>Count</TableHead>
-              <TableHead>Insight</TableHead>
-              <TableHead className="text-right">Updated</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {rows.length > 0 ? (
-              rows.map((item) => (
-                <TableRow key={item.status}>
-                  <TableCell>
-                    <Badge
-                      variant="secondary"
-                      className={STATUS_BADGE_CLASS[item.status] || "bg-slate-100 text-slate-700"}
-                    >
-                      {formatStatusLabel(item.status)}
-                    </Badge>
-                  </TableCell>
-                  <TableCell className="font-semibold">{item.count}</TableCell>
-                  <TableCell className="text-muted-foreground">
-                    {STATUS_INSIGHTS[item.status] || "Part of the consultation workflow"}
-                  </TableCell>
-                  <TableCell className="text-right text-muted-foreground">
-                    <span className="inline-flex items-center gap-1">
-                      <Clock3 className="size-3.5" />
-                      Live
-                    </span>
+        {/* ================= DESKTOP TABLE ================= */}
+        <div className="hidden md:block">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Status</TableHead>
+                <TableHead>Count</TableHead>
+                <TableHead>Insight</TableHead>
+                <TableHead className="text-right">Updated</TableHead>
+              </TableRow>
+            </TableHeader>
+
+            <TableBody>
+              {rows.length > 0 ? (
+                rows.map((item) => (
+                  <TableRow key={item.status}>
+                    <TableCell>
+                      <Badge
+                        variant="secondary"
+                        className={
+                          STATUS_BADGE_CLASS[item.status] ||
+                          "bg-slate-100 text-slate-700"
+                        }
+                      >
+                        {formatStatusLabel(item.status)}
+                      </Badge>
+                    </TableCell>
+
+                    <TableCell className="font-semibold">
+                      {item.count}
+                    </TableCell>
+
+                    <TableCell className="text-muted-foreground">
+                      {STATUS_INSIGHTS[item.status] ||
+                        "Part of the consultation workflow"}
+                    </TableCell>
+
+                    <TableCell className="text-right text-muted-foreground">
+                      <span className="inline-flex items-center gap-1">
+                        <Clock3 className="size-3.5" />
+                        Live
+                      </span>
+                    </TableCell>
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell
+                    colSpan={4}
+                    className="py-8 text-center text-muted-foreground"
+                  >
+                    No consultation activity is available yet.
                   </TableCell>
                 </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell colSpan={4} className="py-8 text-center text-muted-foreground">
-                  No consultation activity is available yet.
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-          <TableCaption>
-            This table reflects the latest consultation summary available to your dashboard.
-          </TableCaption>
-        </Table>
+              )}
+            </TableBody>
+
+            <TableCaption>
+              This table reflects the latest consultation summary available to your dashboard.
+            </TableCaption>
+          </Table>
+        </div>
+
+        {/* ================= MOBILE CARDS ================= */}
+        <div className="md:hidden space-y-3">
+          {rows.length > 0 ? (
+            rows.map((item) => (
+              <div
+                key={item.status}
+                className="rounded-lg border p-4 space-y-2"
+              >
+                <div className="flex items-center justify-between">
+                  <Badge
+                    variant="secondary"
+                    className={
+                      STATUS_BADGE_CLASS[item.status] ||
+                      "bg-slate-100 text-slate-700"
+                    }
+                  >
+                    {formatStatusLabel(item.status)}
+                  </Badge>
+
+                  <span className="text-sm font-semibold">
+                    {item.count}
+                  </span>
+                </div>
+
+                <p className="text-sm text-muted-foreground">
+                  {STATUS_INSIGHTS[item.status] ||
+                    "Part of the consultation workflow"}
+                </p>
+
+                <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                  <Clock3 className="size-3.5" />
+                  Live
+                </div>
+              </div>
+            ))
+          ) : (
+            <p className="text-center text-muted-foreground py-6">
+              No consultation activity is available yet.
+            </p>
+          )}
+        </div>
       </CardContent>
     </Card>
   );
