@@ -40,9 +40,7 @@ export default async function IndustriesPage() {
               <p className="text-gray-500 text-sm mb-4 line-clamp-3 min-h-15">
                 {industry.description}
               </p>
-              <span className="inline-block px-3 py-1 text-xs font-medium bg-blue-50 text-blue-700 rounded-full">
-                {industry.expertsCount ?? 0} Experts
-              </span>
+              
             </div>
           ))}
         </div>

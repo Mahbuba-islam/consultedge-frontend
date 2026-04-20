@@ -2,7 +2,6 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { getAllIndustries } from "@/src/services/industry.services";
-
 export default function IndustriesPage() {
   const { data: industriesResponse, isLoading } = useQuery({
     queryKey: ["industries"],
@@ -58,7 +57,7 @@ export default function IndustriesPage() {
 
             {/* Optional meta info */}
             <div className="mt-4 text-xs text-gray-400 text-center">
-              {new Date(industry.createdAt).toLocaleDateString()}
+              {industry.createdAt}
             </div>
           </div>
         ))}
