@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { toast } from "sonner";
 import { applyExpertAction } from "@/src/services/expert.services";
-import { getIndustries } from "@/src/services/industry.services";
+import { getAllIndustries } from "@/src/services/industry.services";
 import type { IIndustry } from "@/src/types/industry.types";
 import { useState } from "react";
 
@@ -32,9 +32,12 @@ const mutation = useMutation({
     data: industries = [],
     isLoading: isIndustriesLoading,
     isError: isIndustriesError,
-  } = useQuery<IIndustry[]>({
+  } = useQuery({
     queryKey: ["industries", "options"],
-    queryFn: getIndustries,
+    queryFn: getAllIndustries,
+    select: (response): IIndustry[] =>
+      Array.isArray(response?.data) ? response.data : [],
+    initialData: { data: [] },
     staleTime: 5 * 60 * 1000,
     retry: 2,
     refetchOnMount: true,
@@ -191,8 +194,8 @@ const mutation = useMutation({
                 <select
                   value={field.state.value}
                   onChange={(e) => field.handleChange(e.target.value)}
-                  className="w-full border rounded-md p-2"
-                  disabled={isIndustriesLoading}
+                  className="w-full rounded-md border p-2"
+                  disabled={isIndustriesLoading || isIndustriesError || industries.length === 0}
                 >
                   <option value="">
                     {isIndustriesLoading
@@ -209,6 +212,11 @@ const mutation = useMutation({
                     </option>
                   ))}
                 </select>
+                {isIndustriesError && (
+                  <p className="text-sm text-red-500">
+                    Could not load industries right now. Please refresh and try again.
+                  </p>
+                )}
               </div>
             )}
           />

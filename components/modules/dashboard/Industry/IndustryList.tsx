@@ -255,11 +255,11 @@ export default function IndustryList() {
                   )}
                 </td>
 
-                <td className="max-w-[200px] p-3 font-medium truncate">
+                <td className="max-w-50 p-3 font-medium truncate">
                   {industry.name}
                 </td>
 
-                <td className="max-w-[300px] p-3 text-gray-600 truncate">
+                <td className="max-w-75 p-3 text-gray-600 truncate">
                   {industry.description}
                 </td>
 
@@ -319,10 +319,10 @@ export default function IndustryList() {
               )}
 
               <div className="min-w-0 flex-1">
-                <p className="text-base leading-snug font-semibold text-gray-900 break-words sm:text-lg">
+                <p className="wrap-break-word text-base leading-snug font-semibold text-gray-900 sm:text-lg">
                   {industry.name}
                 </p>
-                <p className="mt-1 text-sm leading-6 text-gray-500 break-words sm:text-[15px]">
+                <p className="wrap-break-word mt-1 text-sm leading-6 text-gray-500 sm:text-[15px]">
                   {industry.description}
                 </p>
               </div>
@@ -333,7 +333,7 @@ export default function IndustryList() {
                 <span className="block text-[11px] font-semibold uppercase tracking-[0.18em] text-gray-400">
                   Created
                 </span>
-                <span className="mt-1 block break-words text-sm text-gray-700">
+                <span className="wrap-break-word mt-1 block text-sm text-gray-700">
                   <DateCell date={industry.createdAt} />
                 </span>
               </div>
@@ -341,7 +341,7 @@ export default function IndustryList() {
                 <span className="block text-[11px] font-semibold uppercase tracking-[0.18em] text-gray-400">
                   Updated
                 </span>
-                <span className="mt-1 block break-words text-sm text-gray-700">
+                <span className="wrap-break-word mt-1 block text-sm text-gray-700">
                   <DateCell date={industry.updatedAt} />
                 </span>
               </div>
