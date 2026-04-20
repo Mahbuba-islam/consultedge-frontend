@@ -132,19 +132,6 @@ export default function HomeSection3() {
                   </div>
                 ))}
 
-              {/* <Button
-  asChild
-  className={`mt-2 w-full ${
-    option.featured
-      ? "bg-blue-600 hover:bg-blue-700"
-      : "bg-slate-900 hover:bg-slate-800"
-  }`}
->
-  <Link href={option.href}>
-    {option.cta}
-    <ArrowRight className="ml-2 size-4" />
-  </Link>
-</Button> */}
 <div className="mt-2 w-full">
   <Link href={option.href} className="block">
     <Button
@@ -186,15 +173,31 @@ export default function HomeSection3() {
               const Icon = item.icon;
 
               return (
-                <div key={item.title} className="flex gap-3 rounded-2xl border bg-white/80 p-3 dark:border-white/10 dark:bg-slate-950/70">
-                  <div className={`flex h-10 w-10 items-center justify-center rounded-xl ${item.tone}`}>
-                    <Icon className="size-4" />
-                  </div>
-                  <div>
-                    <p className="font-semibold text-foreground">{item.title}</p>
-                    <p className="text-sm text-muted-foreground">{item.description}</p>
-                  </div>
-                </div>
+      <div
+  key={item.title}
+  className="flex items-center gap-3 rounded-2xl border bg-white/80 p-3
+             dark:border-white/10 dark:bg-slate-950/70"
+>
+  <div
+    className={`
+      flex shrink-0 items-center justify-center rounded-xl
+      h-10 w-10 sm:h-11 sm:w-11 md:h-12 md:w-12
+      ${item.tone}
+    `}
+  >
+    <Icon className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7" />
+  </div>
+
+  <div className="flex flex-col">
+    <p className="font-semibold leading-tight text-foreground">
+      {item.title}
+    </p>
+    <p className="text-sm leading-snug text-muted-foreground">
+      {item.description}
+    </p>
+  </div>
+</div>
+
               );
             })}
           </div>
