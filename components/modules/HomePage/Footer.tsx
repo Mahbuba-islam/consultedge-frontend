@@ -20,6 +20,8 @@ const quickLinks = [
   { label: "Experts", href: "/experts" },
   { label: "How it works", href: "/industries" },
   { label: "Contact", href: "/contact" },
+  { label: "Blogs", href: "/blogs" },
+  { label: "Process", href: "/process" },
 ];
 
 const platformLinks = [
