@@ -247,10 +247,20 @@ const normalizeApiBaseUrl = (rawValue?: string) => {
   return value.endsWith("/api/v1") ? value : `${value}/api/v1`;
 };
 
-const API_BASE_URL = normalizeApiBaseUrl(process.env.NEXT_PUBLIC_API_BASE_URL);
+const API_BASE_URL =
+  normalizeApiBaseUrl(process.env.NEXT_PUBLIC_API_BASE_URL) ??
+  // Fall back to a harmless placeholder so the app can be built on platforms
+  // where env vars are added after the first build attempt. Real requests will
+  // still fail loudly at runtime if the env var is missing, but the bundle
+  // itself will always build.
+  "http://localhost:5000/api/v1";
 
-if (!API_BASE_URL) {
-  throw new Error("NEXT_PUBLIC_API_URL is not defined in the environment variables");
+if (!process.env.NEXT_PUBLIC_API_BASE_URL && typeof window === "undefined") {
+  // Log once during SSR/build so missing config is visible without crashing.
+  console.warn(
+    "[httpClient] NEXT_PUBLIC_API_BASE_URL is not set. Using fallback:",
+    API_BASE_URL,
+  );
 }
 
 // ---------------------------------------------
