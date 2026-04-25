@@ -48,9 +48,11 @@ const LoginForm = ({ redirectPath, passwordReset = false }: LoginFormProps) => {
   const handleGoogleAuth = () => {
     const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL?.replace(/\/$/, "");
     const redirectTarget = safeRedirectPath || "/dashboard";
+    // Land on our local callback page (same origin) so we can persist the
+    // tokens that the backend appends to the URL into cookies on this domain.
     const callbackURL = new URL(
-      redirectTarget,
-      window.location.origin
+      `/oauth-callback?redirect=${encodeURIComponent(redirectTarget)}`,
+      window.location.origin,
     ).toString();
 
     window.location.href = `${baseUrl || window.location.origin}/auth/login/google?callbackURL=${encodeURIComponent(callbackURL)}&redirect=${encodeURIComponent(redirectTarget)}`;
