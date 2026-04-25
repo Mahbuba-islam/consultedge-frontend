@@ -13,8 +13,8 @@ const UserDropdown = ({ userInfo }: UserDropdownProps) => {
   return (
     <DropdownMenu>
         <DropdownMenuTrigger asChild>
-            <Button variant={"outline"} size={"icon"} className="rounded-full">
-                <span className="text-sm font-semibold">
+            <Button size={"icon"} className="rounded-full border-0 bg-linear-to-br from-blue-600 via-cyan-500 to-teal-400 text-white shadow-md shadow-cyan-500/30 transition-all hover:from-blue-700 hover:via-cyan-600 hover:to-teal-500 hover:shadow-lg hover:shadow-cyan-500/40">
+                <span className="text-sm font-bold">
                     {userInfo.name.charAt(0).toUpperCase()}
                 </span>
             </Button>

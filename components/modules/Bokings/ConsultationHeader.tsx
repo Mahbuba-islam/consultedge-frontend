@@ -52,10 +52,9 @@ export default function ConsultationHeader({
           </div>
 
           <Button
-            variant="outline"
             onClick={() => void refetch()}
             disabled={isFetching}
-            className="border-blue-200/60 hover:bg-blue-50 dark:border-white/15 dark:bg-white/5 dark:hover:bg-white/10"
+            className="rounded-full bg-linear-to-r from-blue-600 to-cyan-500 text-white shadow-md shadow-cyan-500/25 hover:from-blue-700 hover:to-cyan-600"
           >
             <RefreshCw className={`mr-2 size-4 ${isFetching ? "animate-spin" : ""}`} />
             Refresh

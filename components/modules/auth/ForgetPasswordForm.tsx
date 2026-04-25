@@ -63,9 +63,9 @@ export default function ForgetPasswordForm({
   });
 
   return (
-    <div className="mx-auto w-full max-w-md space-y-4 py-10">
-      <div className="space-y-1 text-center">
-        <h1 className="text-2xl font-bold">{title}</h1>
+    <div className="space-y-5">
+      <div className="space-y-1.5 text-center">
+        <h1 className="text-2xl font-bold tracking-tight">{title}</h1>
         <p className="text-sm text-muted-foreground">{description}</p>
       </div>
 
@@ -89,7 +89,7 @@ export default function ForgetPasswordForm({
                 onChange={(e) => field.handleChange(e.target.value)}
                 onBlur={field.handleBlur}
                 readOnly={lockEmail}
-                className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm outline-none transition placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring read-only:bg-muted/50 read-only:text-muted-foreground"
+                className="h-11 w-full rounded-xl border border-slate-200/70 bg-white/70 px-4 text-sm outline-none backdrop-blur transition placeholder:text-muted-foreground focus-visible:border-cyan-500/60 focus-visible:ring-2 focus-visible:ring-cyan-500/30 read-only:bg-slate-100/70 read-only:text-muted-foreground dark:border-white/10 dark:bg-white/5 dark:read-only:bg-white/5"
               />
               {field.state.meta.errors?.[0] ? (
                 <Alert variant="destructive">
@@ -102,7 +102,11 @@ export default function ForgetPasswordForm({
 
         <form.Subscribe selector={(state) => [state.isSubmitting] as const}>
           {([isSubmitting]) => (
-            <AppSubmitButton isPending={isSubmitting} pendingLabel={pendingLabel}>
+            <AppSubmitButton
+              isPending={isSubmitting}
+              pendingLabel={pendingLabel}
+              className="h-11 w-full rounded-xl bg-linear-to-r from-blue-600 to-cyan-500 text-white shadow-md shadow-cyan-500/25 hover:from-blue-700 hover:to-cyan-600"
+            >
               {submitLabel}
             </AppSubmitButton>
           )}

@@ -46,9 +46,9 @@ export default function ChatEmptyState({
       : { href: "/experts", label: "Explore experts" };
 
   return (
-    <Card className="flex h-full items-center justify-center border-dashed bg-linear-to-br from-blue-50/70 via-background to-sky-50/70 shadow-sm">
+    <Card className="flex h-full items-center justify-center border-dashed border-slate-200/70 bg-linear-to-br from-blue-50/70 via-background to-sky-50/70 shadow-sm dark:border-white/10 dark:from-slate-900/60 dark:via-slate-950/60 dark:to-slate-900/60">
       <CardContent className="max-w-xl space-y-4 py-14 text-center">
-        <div className="mx-auto flex size-14 items-center justify-center rounded-2xl bg-blue-100 text-blue-700">
+        <div className="mx-auto flex size-14 items-center justify-center rounded-2xl bg-linear-to-br from-blue-500 to-cyan-500 text-white shadow-lg shadow-cyan-500/30">
           <MessageCircleMore className="size-7" />
         </div>
 
@@ -62,14 +62,14 @@ export default function ChatEmptyState({
         </div>
 
         <div className="flex flex-wrap items-center justify-center gap-3">
-          <Button asChild className="bg-blue-600 hover:bg-blue-700">
+          <Button asChild className="bg-linear-to-r from-blue-600 to-cyan-500 text-white shadow-md shadow-cyan-500/25 hover:from-blue-700 hover:to-cyan-600">
             <Link href={primaryAction.href}>
               <Sparkles className="mr-2 size-4" />
               {primaryAction.label}
             </Link>
           </Button>
 
-          <Button asChild variant="outline">
+          <Button asChild variant="outline" className="dark:border-white/10 dark:bg-white/5 dark:hover:bg-white/10">
             <Link href={dashboardHref}>Back to dashboard</Link>
           </Button>
         </div>

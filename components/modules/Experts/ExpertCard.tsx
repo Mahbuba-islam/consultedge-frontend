@@ -146,14 +146,14 @@ export default function ExpertCard({ expert }: { expert: IExpert }) {
         </div>
 
         <div className="mt-auto grid gap-2 sm:grid-cols-2">
-          <Button asChild className="w-full bg-blue-600 text-white hover:bg-blue-700">
+          <Button asChild className="w-full bg-linear-to-r from-blue-600 to-cyan-500 text-white shadow-md shadow-cyan-500/25 transition-all hover:from-blue-700 hover:to-cyan-600 hover:shadow-lg hover:shadow-cyan-500/30">
             <Link href={`/experts/${expert.id}`}>
               View profile
               <ArrowUpRight className="ml-2 size-4" />
             </Link>
           </Button>
 
-          <Button asChild variant="outline" className="w-full border-blue-200 text-blue-700 hover:bg-blue-50 dark:border-white/10 dark:bg-slate-950/60 dark:text-blue-200 dark:hover:bg-slate-800/80 dark:hover:text-blue-100">
+          <Button asChild className="w-full bg-linear-to-r from-emerald-500 to-teal-500 text-white shadow-md shadow-emerald-500/25 transition-all hover:from-emerald-600 hover:to-teal-600 hover:shadow-lg hover:shadow-emerald-500/30">
             <Link href={`/experts/${expert.id}#book-session`} scroll>
               <CalendarDays className="mr-2 size-4" />
               Book now

@@ -177,7 +177,7 @@ const NotificationDropdown = () => {
       }}
     >
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="icon" className="relative">
+        <Button variant="outline" size="icon" className="relative rounded-full border-slate-200/70 bg-white/70 backdrop-blur hover:bg-blue-50 dark:border-white/10 dark:bg-white/5 dark:hover:bg-white/10">
           <Bell className="h-5 w-5" />
           {unreadCount > 0 ? (
             <Badge

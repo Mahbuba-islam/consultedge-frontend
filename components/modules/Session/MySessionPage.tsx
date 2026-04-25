@@ -2,7 +2,7 @@
 
 import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { RefreshCw } from "lucide-react";
+import { CalendarClock, CheckCircle2, Clock, RefreshCw, Sparkles } from "lucide-react";
 
 import ExpertConsultationCard from "@/components/modules/Bokings/ExpertConsultationCard";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -102,20 +102,27 @@ export default function MySessionPage() {
   return (
     <div className="space-y-6 px-4 py-6 md:px-6">
       {/* HEADER */}
-      <section className="rounded-3xl bg-linear-to-r from-slate-900 via-blue-900 to-cyan-800 p-6 text-white shadow-xl">
-        <div className="flex flex-col gap-4 md:flex-row md:sessionustify-between">
-          <div>
+      <section className="relative overflow-hidden rounded-3xl bg-linear-to-r from-slate-900 via-blue-900 to-cyan-800 p-8 text-white shadow-xl">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(34,211,238,0.25),transparent_55%),radial-gradient(circle_at_bottom_left,rgba(37,99,235,0.25),transparent_55%)]"
+        />
+        <div className="relative flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          <div className="space-y-2">
+            <Badge className="border-white/20 bg-white/10 text-white backdrop-blur">
+              <Sparkles className="mr-1 size-3.5" />
+              Expert Dashboard
+            </Badge>
             <h1 className="text-3xl font-bold tracking-tight">
               My consultations
             </h1>
-            <p className="mt-2 text-white/80">
+            <p className="text-white/80">
               Track upcoming and completed sessions in one place.
             </p>
           </div>
 
           <Button
-            variant="secondary"
-            className="bg-white/15 text-white hover:bg-white/20"
+            className="rounded-full border border-white/20 bg-white/10 text-white backdrop-blur hover:bg-white/20"
             onClick={() => void refetch()}
             disabled={isFetching}
           >
@@ -129,24 +136,42 @@ export default function MySessionPage() {
 
       {/* STATS */}
       <div className="grid gap-4 md:grid-cols-3">
-        <Card>
-          <CardContent className="p-5">
-            <p className="text-sm text-muted-foreground">Total</p>
-            <p className="text-3xl font-bold">{stats.total}</p>
+        <Card className="relative overflow-hidden border-blue-200/60 bg-linear-to-br from-blue-50 to-white shadow-sm dark:border-blue-500/20 dark:from-blue-500/10 dark:to-slate-900/80">
+          <div className="absolute inset-x-0 top-0 h-1 bg-linear-to-r from-blue-600 to-cyan-500" />
+          <CardContent className="flex items-start justify-between gap-3 p-5">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Total</p>
+              <p className="mt-2 text-3xl font-bold text-foreground">{stats.total}</p>
+            </div>
+            <div className="inline-flex size-10 items-center justify-center rounded-xl bg-blue-100 text-blue-700 dark:bg-blue-500/20 dark:text-blue-300">
+              <CalendarClock className="size-5" />
+            </div>
           </CardContent>
         </Card>
 
-        <Card>
-          <CardContent className="p-5">
-            <p className="text-sm text-muted-foreground">Upcoming</p>
-            <p className="text-3xl font-bold">{stats.upcoming}</p>
+        <Card className="relative overflow-hidden border-emerald-200/60 bg-linear-to-br from-emerald-50 to-white shadow-sm dark:border-emerald-500/20 dark:from-emerald-500/10 dark:to-slate-900/80">
+          <div className="absolute inset-x-0 top-0 h-1 bg-linear-to-r from-emerald-500 to-teal-500" />
+          <CardContent className="flex items-start justify-between gap-3 p-5">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Upcoming</p>
+              <p className="mt-2 text-3xl font-bold text-foreground">{stats.upcoming}</p>
+            </div>
+            <div className="inline-flex size-10 items-center justify-center rounded-xl bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-300">
+              <Clock className="size-5" />
+            </div>
           </CardContent>
         </Card>
 
-        <Card>
-          <CardContent className="p-5">
-            <p className="text-sm text-muted-foreground">Completed</p>
-            <p className="text-3xl font-bold">{stats.completed}</p>
+        <Card className="relative overflow-hidden border-violet-200/60 bg-linear-to-br from-violet-50 to-white shadow-sm dark:border-violet-500/20 dark:from-violet-500/10 dark:to-slate-900/80">
+          <div className="absolute inset-x-0 top-0 h-1 bg-linear-to-r from-violet-500 to-fuchsia-500" />
+          <CardContent className="flex items-start justify-between gap-3 p-5">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Completed</p>
+              <p className="mt-2 text-3xl font-bold text-foreground">{stats.completed}</p>
+            </div>
+            <div className="inline-flex size-10 items-center justify-center rounded-xl bg-violet-100 text-violet-700 dark:bg-violet-500/20 dark:text-violet-300">
+              <CheckCircle2 className="size-5" />
+            </div>
           </CardContent>
         </Card>
       </div>
@@ -171,7 +196,7 @@ export default function MySessionPage() {
           ))}
         </div>
       ) : consultations.length === 0 ? (
-        <Card>
+        <Card className="border-dashed border-slate-200/70 bg-white/60 dark:border-white/10 dark:bg-slate-900/60">
           <CardContent className="py-12 text-center">
             <h3 className="text-lg font-semibold">
               No consultations yet
@@ -186,10 +211,12 @@ export default function MySessionPage() {
           {/* UPCOMING */}
           <div className="space-y-3">
             <div className="flex items-center gap-2">
-              <h2 className="text-xl font-semibold">
-                Upcoming Sessions
+              <h2 className="text-xl font-semibold tracking-tight">
+                Upcoming sessions
               </h2>
-              <Badge>{upcoming.length}</Badge>
+              <Badge className="border-emerald-200/60 bg-emerald-100 text-emerald-700 dark:border-emerald-500/30 dark:bg-emerald-500/15 dark:text-emerald-200">
+                {upcoming.length}
+              </Badge>
             </div>
 
             {upcoming.length === 0 ? (
@@ -211,10 +238,12 @@ export default function MySessionPage() {
           {/* COMPLETED */}
           <div className="mt-10 space-y-3">
             <div className="flex items-center gap-2">
-              <h2 className="text-xl font-semibold">
-                Completed Sessions
+              <h2 className="text-xl font-semibold tracking-tight">
+                Completed sessions
               </h2>
-              <Badge>{completed.length}</Badge>
+              <Badge className="border-violet-200/60 bg-violet-100 text-violet-700 dark:border-violet-500/30 dark:bg-violet-500/15 dark:text-violet-200">
+                {completed.length}
+              </Badge>
             </div>
 
             {completed.length === 0 ? (

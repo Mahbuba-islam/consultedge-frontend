@@ -43,8 +43,8 @@ export default function ChatSidebar({
         : "No conversations yet. Open a room from an expert profile to get started.";
 
   return (
-    <aside className="flex min-h-[70vh] flex-col rounded-2xl border bg-background shadow-sm">
-      <div className="flex items-start justify-between gap-3 border-b p-4">
+    <aside className="flex min-h-[70vh] flex-col rounded-2xl border border-slate-200/70 bg-white/70 shadow-sm backdrop-blur dark:border-white/10 dark:bg-slate-900/60">
+      <div className="flex items-start justify-between gap-3 border-b border-slate-200/70 p-4 dark:border-white/10">
         <div>
           <h2 className="text-lg font-semibold tracking-tight">{title}</h2>
           <p className="text-sm text-muted-foreground">{description}</p>
@@ -56,6 +56,7 @@ export default function ChatSidebar({
           variant="outline"
           onClick={onRefresh}
           disabled={isRefreshing}
+          className="dark:border-white/10 dark:bg-white/5 dark:hover:bg-white/10"
         >
           <RefreshCw className={`size-4 ${isRefreshing ? "animate-spin" : ""}`} />
           <span className="sr-only">Refresh conversations</span>
@@ -77,7 +78,7 @@ export default function ChatSidebar({
               </div>
             ))
           ) : rooms.length === 0 ? (
-            <div className="rounded-2xl border border-dashed px-4 py-8 text-center text-sm text-muted-foreground">
+            <div className="rounded-2xl border border-dashed border-slate-200/70 bg-white/40 px-4 py-8 text-center text-sm text-muted-foreground dark:border-white/10 dark:bg-white/5">
               {emptyMessage}
             </div>
           ) : (

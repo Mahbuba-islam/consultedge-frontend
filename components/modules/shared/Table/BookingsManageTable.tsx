@@ -286,15 +286,18 @@ export default function BookingsManageTable() {
 
   return (
     <>
-      <Card>
-        <CardHeader>
-          <CardTitle>Bookings management</CardTitle>
+      <Card className="relative overflow-hidden border-slate-200/70 bg-white/70 shadow-sm backdrop-blur dark:border-white/10 dark:bg-slate-900/60">
+        <div className="absolute inset-x-0 top-0 h-1 bg-linear-to-r from-blue-600 via-cyan-500 to-teal-400" />
+        <div className="pointer-events-none absolute -right-24 -top-24 hidden size-72 rounded-full bg-cyan-500/10 blur-3xl dark:block" />
+
+        <CardHeader className="relative">
+          <CardTitle className="text-2xl font-bold tracking-tight">Bookings management</CardTitle>
           <CardDescription>
             Review consultation bookings, track payment state, and update statuses from one place.
           </CardDescription>
         </CardHeader>
 
-        <CardContent className="space-y-4">
+        <CardContent className="relative space-y-4">
           {isError ? (
             <Alert variant="destructive">
               <AlertTitle>Could not load bookings</AlertTitle>

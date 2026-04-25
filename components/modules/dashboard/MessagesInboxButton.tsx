@@ -46,8 +46,10 @@ export default function MessagesInboxButton({ role }: MessagesInboxButtonProps) 
       asChild
       variant={isActive ? "default" : "outline"}
       className={cn(
-        "relative gap-2",
-        isActive ? "bg-blue-600 text-white hover:bg-blue-700" : undefined,
+        "relative gap-2 rounded-full",
+        isActive
+          ? "border-0 bg-linear-to-r from-blue-600 to-cyan-500 text-white shadow-md shadow-cyan-500/25 hover:from-blue-700 hover:to-cyan-600"
+          : "border-slate-200/70 bg-white/70 backdrop-blur hover:bg-blue-50 dark:border-white/10 dark:bg-white/5 dark:hover:bg-white/10",
       )}
     >
       <Link href={href} aria-label={`Open messages${totalUnread ? ` (${totalUnread} unread)` : ""}`}>

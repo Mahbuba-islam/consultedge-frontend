@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { AlertCircle } from "lucide-react";
+import { AlertCircle, ArrowLeft } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
@@ -306,7 +306,7 @@ export default function ChatWorkspace({
             onSelectRoom={() => undefined}
           />
 
-          <div className="flex min-h-[70vh] flex-col rounded-2xl border bg-background shadow-sm">
+          <div className="hidden min-h-[70vh] flex-col rounded-2xl border bg-background shadow-sm xl:flex">
             <div className="flex h-full items-center justify-center p-6 text-sm text-muted-foreground">
               Loading conversation...
             </div>
@@ -316,24 +316,32 @@ export default function ChatWorkspace({
     );
   }
 
+  const hasActiveRoom = Boolean(selectedRoom);
+
   return (
     <div className="space-y-4">
       <div className="grid gap-4 xl:grid-cols-[340px_minmax(0,1fr)]">
-        <ChatSidebar
-          rooms={visibleRooms}
-          currentUserId={currentUser?.userId}
-          currentUserRole={currentUser?.role}
-          selectedRoomId={selectedRoom?.id}
-          isLoading={isRoomsLoading || isCreatingRoom}
-          isRefreshing={isRoomsLoading}
-          title={title}
-          description={description}
-          role={currentUser?.role ?? null}
-          onRefresh={() => void refetchRooms()}
-          onSelectRoom={handleSelectRoom}
-        />
+        <div className={hasActiveRoom ? "hidden xl:block" : "block"}>
+          <ChatSidebar
+            rooms={visibleRooms}
+            currentUserId={currentUser?.userId}
+            currentUserRole={currentUser?.role}
+            selectedRoomId={selectedRoom?.id}
+            isLoading={isRoomsLoading || isCreatingRoom}
+            isRefreshing={isRoomsLoading}
+            title={title}
+            description={description}
+            role={currentUser?.role ?? null}
+            onRefresh={() => void refetchRooms()}
+            onSelectRoom={handleSelectRoom}
+          />
+        </div>
 
-        <div className="flex min-h-[70vh] flex-col rounded-2xl border bg-background shadow-sm">
+        <div
+          className={`min-h-[70vh] flex-col rounded-2xl border bg-background shadow-sm xl:flex ${
+            hasActiveRoom ? "flex" : "hidden xl:flex"
+          }`}
+        >
           {roomsError && !rooms.length ? (
             <div className="flex h-full items-center justify-center p-4">
               <Card className="max-w-xl border-destructive/20 bg-destructive/5">
@@ -368,6 +376,17 @@ export default function ChatWorkspace({
             )
           ) : (
             <>
+              <div className="flex items-center justify-between border-b px-4 py-2 xl:hidden">
+                <button
+                  type="button"
+                  onClick={() => router.push(basePath)}
+                  className="inline-flex items-center gap-1.5 rounded-full border border-slate-200/70 bg-white/70 px-3 py-1.5 text-xs font-medium text-slate-700 backdrop-blur transition hover:border-blue-300 hover:text-blue-700 dark:border-white/10 dark:bg-white/5 dark:text-slate-200 dark:hover:border-cyan-500/40 dark:hover:text-cyan-300"
+                >
+                  <ArrowLeft className="size-3.5" />
+                  Back to chats
+                </button>
+              </div>
+
               <ChatRoomHeader
                 room={selectedRoom}
                 currentUserId={currentUser?.userId}

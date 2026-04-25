@@ -249,31 +249,72 @@ export default function MyScheduleList() {
     const recordId = item.scheduleId;
     const isDeleting =
       deleteMutation.isPending && deleteMutation.variables === recordId;
+    const isBooked = item.isBooked;
 
     return (
-      <Card key={item.id} className="shadow-sm">
-        <CardContent className="p-5 space-y-4">
-          <div className="flex justify-between">
-            <LocalizedDateTime
-              start={getScheduleStart(item, scheduleLookup)}
-              end={getScheduleEnd(item, scheduleLookup)}
-            />
+      <Card
+        key={item.id}
+        className="group relative overflow-hidden border-slate-200/70 bg-white/70 shadow-sm backdrop-blur transition-all hover:shadow-md dark:border-white/10 dark:bg-slate-900/60"
+      >
+        <div
+          className={`absolute inset-x-0 top-0 h-1 ${
+            isBooked
+              ? "bg-linear-to-r from-amber-500 via-orange-500 to-rose-500"
+              : "bg-linear-to-r from-emerald-500 via-teal-500 to-cyan-500"
+          }`}
+        />
+        <div
+          className={`pointer-events-none absolute -right-16 -top-16 hidden size-44 rounded-full blur-3xl dark:block ${
+            isBooked ? "bg-amber-500/10" : "bg-emerald-500/10"
+          }`}
+        />
 
-            <Badge variant={item.isBooked ? "secondary" : "default"}>
-              {item.isBooked ? "Booked" : "Open"}
+        <CardContent className="relative space-y-4 p-5">
+          <div className="flex items-start justify-between gap-3">
+            <div className="flex items-start gap-3">
+              <div
+                className={`inline-flex size-10 items-center justify-center rounded-xl text-white shadow-md ${
+                  isBooked
+                    ? "bg-linear-to-br from-amber-500 to-orange-500 shadow-amber-500/30"
+                    : "bg-linear-to-br from-emerald-500 to-teal-500 shadow-emerald-500/30"
+                }`}
+              >
+                <CalendarDays className="size-5" />
+              </div>
+              <LocalizedDateTime
+                start={getScheduleStart(item, scheduleLookup)}
+                end={getScheduleEnd(item, scheduleLookup)}
+              />
+            </div>
+
+            <Badge
+              className={
+                isBooked
+                  ? "border-amber-200/60 bg-amber-100 text-amber-700 dark:border-amber-500/30 dark:bg-amber-500/15 dark:text-amber-200"
+                  : "border-emerald-200/60 bg-emerald-100 text-emerald-700 dark:border-emerald-500/30 dark:bg-emerald-500/15 dark:text-emerald-200"
+              }
+            >
+              {isBooked ? "Booked" : "Open"}
             </Badge>
           </div>
 
-          <div className="text-sm border rounded-xl p-3">
-            <div className="flex items-center gap-2 text-muted-foreground">
-              <CalendarDays className="size-4" />
-              ID
+          <div className="rounded-xl border border-slate-200/70 bg-white/50 p-3 text-sm dark:border-white/10 dark:bg-white/5">
+            <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+              <CalendarDays className="size-3.5" />
+              Slot ID
             </div>
-            <p className="font-medium break-all">{recordId}</p>
+            <p className="mt-1 break-all font-mono text-xs text-foreground/80">
+              {recordId}
+            </p>
           </div>
 
-          <div className="flex gap-2">
-            <Button size="sm" variant="outline" asChild>
+          <div className="flex flex-wrap gap-2">
+            <Button
+              size="sm"
+              variant="outline"
+              asChild
+              className="border-slate-200/70 bg-white/70 backdrop-blur dark:border-white/10 dark:bg-white/5 dark:hover:bg-white/10"
+            >
               <Link href="/expert/dashboard/set-availability">
                 <PencilLine className="mr-2 size-4" />
                 Manage
@@ -282,9 +323,9 @@ export default function MyScheduleList() {
 
             <Button
               size="sm"
-              variant="destructive"
-              disabled={item.isBooked || isDeleting}
+              disabled={isBooked || isDeleting}
               onClick={() => recordId && deleteMutation.mutate(recordId)}
+              className="bg-linear-to-r from-rose-500 to-red-500 text-white shadow-md shadow-rose-500/25 hover:from-rose-600 hover:to-red-600 disabled:cursor-not-allowed disabled:opacity-50"
             >
               <Trash2 className="mr-2 size-4" />
               {isDeleting ? "Deleting..." : "Delete"}
@@ -298,36 +339,49 @@ export default function MyScheduleList() {
   // ---------------- FINAL UI ----------------
 
   return (
-    <div className="space-y-4">
-      <div className="flex justify-between">
-        <Button variant="outline" onClick={() => refetch()}>
+    <div className="space-y-5">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <Button
+          variant="outline"
+          onClick={() => refetch()}
+          className="rounded-full border-slate-200/70 bg-white/70 backdrop-blur dark:border-white/10 dark:bg-white/5 dark:hover:bg-white/10"
+        >
           <RefreshCw className="mr-2 size-4" />
           Refresh
         </Button>
 
-        <Button asChild>
+        <Button
+          asChild
+          className="rounded-full bg-linear-to-r from-blue-600 to-cyan-500 text-white shadow-md shadow-cyan-500/25 hover:from-blue-700 hover:to-cyan-600"
+        >
           <Link href="/expert/dashboard/set-availability">
             <PlusCircle className="mr-2 size-4" />
-            Add
+            Add new
           </Link>
         </Button>
       </div>
 
       <Tabs defaultValue="available" className="w-full">
-        <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="available">
+        <TabsList className="grid w-full grid-cols-2 rounded-full border border-slate-200/70 bg-white/70 p-1 backdrop-blur dark:border-white/10 dark:bg-slate-900/60">
+          <TabsTrigger
+            value="available"
+            className="rounded-full data-[state=active]:bg-linear-to-r data-[state=active]:from-emerald-500 data-[state=active]:to-teal-500 data-[state=active]:text-white data-[state=active]:shadow-md"
+          >
             Available ({available.length})
           </TabsTrigger>
-          <TabsTrigger value="booked">
+          <TabsTrigger
+            value="booked"
+            className="rounded-full data-[state=active]:bg-linear-to-r data-[state=active]:from-amber-500 data-[state=active]:to-orange-500 data-[state=active]:text-white data-[state=active]:shadow-md"
+          >
             Booked ({Booked.length})
           </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="available" className="mt-4">
+        <TabsContent value="available" className="mt-5">
           {available.length === 0 ? (
-            <p className="text-sm text-muted-foreground">
-              No available sessions
-            </p>
+            <div className="rounded-2xl border border-dashed border-slate-200/70 bg-white/40 p-8 text-center text-sm text-muted-foreground dark:border-white/10 dark:bg-white/5">
+              No available sessions yet — add one to get started.
+            </div>
           ) : (
             <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
               {available.map((x) => renderCard(x.item))}
@@ -335,11 +389,11 @@ export default function MyScheduleList() {
           )}
         </TabsContent>
 
-        <TabsContent value="booked" className="mt-4">
+        <TabsContent value="booked" className="mt-5">
           {Booked.length === 0 ? (
-            <p className="text-sm text-muted-foreground">
-              No booked sessions
-            </p>
+            <div className="rounded-2xl border border-dashed border-slate-200/70 bg-white/40 p-8 text-center text-sm text-muted-foreground dark:border-white/10 dark:bg-white/5">
+              No booked sessions yet.
+            </div>
           ) : (
             <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
               {Booked.map((x) => renderCard(x.item))}

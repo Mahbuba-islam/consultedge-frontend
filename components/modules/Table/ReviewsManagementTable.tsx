@@ -373,16 +373,19 @@ export default function ReviewsManagementTable() {
       <div className="space-y-6">
         <ReviewSummaryCards reviews={reviews} />
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Review moderation workspace</CardTitle>
+        <Card className="relative overflow-hidden border-slate-200/70 bg-white/70 shadow-sm backdrop-blur dark:border-white/10 dark:bg-slate-900/60">
+          <div className="absolute inset-x-0 top-0 h-1 bg-linear-to-r from-blue-600 via-cyan-500 to-teal-400" />
+          <div className="pointer-events-none absolute -right-24 -top-24 hidden size-72 rounded-full bg-cyan-500/10 blur-3xl dark:block" />
+
+          <CardHeader className="relative">
+            <CardTitle className="text-xl font-bold tracking-tight">Review moderation workspace</CardTitle>
             <CardDescription>
               Admins can moderate visibility and manage review records, while experts publish the
               actual replies.
             </CardDescription>
           </CardHeader>
 
-          <CardContent className="space-y-4">
+          <CardContent className="relative space-y-4">
             {isError ? (
               <Alert variant="destructive">
                 <AlertTitle>Could not load reviews</AlertTitle>
