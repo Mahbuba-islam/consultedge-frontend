@@ -123,7 +123,7 @@ export default function IndustryCreateForm() {
 
         {previewUrl ? (
           <div className="flex items-center gap-4 rounded-xl border border-slate-200/70 bg-white/70 p-3 dark:border-white/10 dark:bg-white/5">
-            <div className="relative size-16 overflow-hidden rounded-xl ring-1 ring-slate-200/70 dark:ring-white/10">
+            <div className="relative size-16 overflow-hidden rounded-full sm:rounded-xl ring-1 ring-slate-200/70 dark:ring-white/10 shrink-0">
               <Image
                 src={previewUrl}
                 alt="Icon preview"
@@ -154,7 +154,7 @@ export default function IndustryCreateForm() {
             htmlFor="industry-icon"
             className="flex cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-slate-200/70 bg-white/40 p-6 text-center transition hover:border-cyan-400/60 hover:bg-cyan-50/40 dark:border-white/10 dark:bg-white/5 dark:hover:border-cyan-500/40 dark:hover:bg-cyan-500/5"
           >
-            <div className="inline-flex size-10 items-center justify-center rounded-xl bg-linear-to-br from-blue-600 to-cyan-500 text-white shadow-md shadow-cyan-500/25">
+            <div className="inline-flex size-10 items-center justify-center rounded-full sm:rounded-xl bg-linear-to-br from-blue-600 to-cyan-500 text-white shadow-md shadow-cyan-500/25">
               <ImagePlus className="size-5" />
             </div>
             <p className="text-sm font-medium text-foreground">

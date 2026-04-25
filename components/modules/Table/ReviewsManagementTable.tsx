@@ -400,8 +400,8 @@ export default function ReviewsManagementTable() {
             <Table
               data={filteredReviews}
               columns={columns}
-              tableClassName="table-fixed w-full"
-              headCellClassName="whitespace-normal wrap-break-word align-top"
+              tableClassName="w-full min-w-[900px]"
+              headCellClassName="whitespace-nowrap align-middle"
               bodyCellClassName="whitespace-normal wrap-break-word align-top"
               isLoading={isLoading || isFetching}
               emptyMessage={

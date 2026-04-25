@@ -90,8 +90,17 @@ const ExpertDashboardContent = () => {
 
   if (isLoading) {
     return (
-      <div className="grid gap-6">
-        <div className="h-40 animate-pulse rounded-2xl bg-muted/60" />
+      <div className="mx-auto w-full max-w-7xl space-y-6">
+        <div className="h-48 animate-pulse rounded-2xl bg-muted/60" />
+
+        <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+          {Array.from({ length: 4 }).map((_, index) => (
+            <div
+              key={`qa-${index}`}
+              className="h-24 animate-pulse rounded-2xl bg-muted/60"
+            />
+          ))}
+        </div>
 
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
           {Array.from({ length: 4 }).map((_, index) => (
@@ -101,30 +110,38 @@ const ExpertDashboardContent = () => {
             />
           ))}
         </div>
+
+        <div className="grid grid-cols-1 gap-6 xl:grid-cols-3">
+          <div className="h-80 animate-pulse rounded-2xl bg-muted/60 xl:col-span-2" />
+          <div className="h-80 animate-pulse rounded-2xl bg-muted/60" />
+        </div>
       </div>
     );
   }
 
   if (isError || !data) {
     return (
-      <Card className="border-destructive/30">
-        <CardHeader>
-          <CardTitle>Unable to load expert dashboard</CardTitle>
-          <CardDescription>
-            We could not fetch your dashboard stats right now.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Link href="/my-profile">
-            <Button variant="outline">Go to profile</Button>
-          </Link>
-        </CardContent>
-      </Card>
+      <div className="mx-auto flex min-h-[60vh] w-full max-w-3xl items-center justify-center">
+        <Card className="w-full border-destructive/30 bg-white/70 backdrop-blur dark:bg-slate-900/60">
+          <CardHeader>
+            <CardTitle>Unable to load expert dashboard</CardTitle>
+            <CardDescription>
+              We could not fetch your dashboard stats right now. Please refresh or try again in a moment.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="flex flex-wrap gap-3">
+            <Link href="/my-profile">
+              <Button variant="outline">Go to profile</Button>
+            </Link>
+            <Button onClick={() => window.location.reload()}>Refresh dashboard</Button>
+          </CardContent>
+        </Card>
+      </div>
     );
   }
 
   return (
-    <div className="space-y-8">
+    <div className="mx-auto w-full max-w-7xl space-y-8">
       {/* Hero */}
       <Card className="relative overflow-hidden border-white/30 bg-linear-to-br from-blue-700 via-indigo-600 to-sky-500 text-white shadow-2xl shadow-blue-500/20 dark:border-white/10">
         <div className="pointer-events-none absolute inset-0">

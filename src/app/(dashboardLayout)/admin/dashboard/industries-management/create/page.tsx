@@ -31,8 +31,8 @@ export default function CreateIndustryPage() {
 
           <div className="relative space-y-6">
             <div className="flex items-start gap-4">
-              <div className="inline-flex size-14 items-center justify-center rounded-2xl bg-linear-to-br from-blue-600 to-cyan-500 text-white shadow-lg shadow-cyan-500/30">
-                <Layers className="size-7" />
+              <div className="inline-flex size-12 sm:size-14 items-center justify-center rounded-full sm:rounded-2xl bg-linear-to-br from-blue-600 to-cyan-500 text-white shadow-lg shadow-cyan-500/30 shrink-0">
+                <Layers className="size-6 sm:size-7" />
               </div>
               <div className="space-y-1">
                 <span className="inline-flex items-center gap-1.5 rounded-full border border-blue-200/60 bg-blue-50/70 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-blue-700 dark:border-blue-500/30 dark:bg-blue-500/15 dark:text-blue-200">
