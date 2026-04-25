@@ -48,9 +48,14 @@ const LoginForm = ({ redirectPath, passwordReset = false }: LoginFormProps) => {
   const handleGoogleAuth = () => {
     const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL?.replace(/\/$/, "");
     const redirectTarget = safeRedirectPath || "/dashboard";
+
+    // Always send the OAuth round-trip back through our own /auth/oauth-callback
+    // page so it can persist the tokens on the frontend domain. The eventual
+    // post-login destination is forwarded as `redirect` so the callback page
+    // can hand the user off to the right dashboard / deep link.
     const callbackURL = new URL(
-      redirectTarget,
-      window.location.origin
+      `/auth/oauth-callback?redirect=${encodeURIComponent(redirectTarget)}`,
+      window.location.origin,
     ).toString();
 
     window.location.href = `${baseUrl || window.location.origin}/auth/login/google?callbackURL=${encodeURIComponent(callbackURL)}&redirect=${encodeURIComponent(redirectTarget)}`;
