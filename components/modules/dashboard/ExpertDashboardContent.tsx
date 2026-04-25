@@ -33,7 +33,6 @@ import type { ITestimonial } from "@/src/types/testimonial.types";
 import ConsultationsPieChart from "../shared/ConsultationsPieCharts";
 import RecentConsultationsTable from "../shared/RecentConsultationsTable";
 import StatsCard from "../shared/StatsCard";
-import TestimonialCard from "../shared/TestimonialCard";
 
 const formatCurrency = (value: number) =>
   new Intl.NumberFormat("en-US", {
@@ -396,29 +395,27 @@ const ExpertDashboardContent = () => {
             </CardDescription>
           </CardHeader>
 
-          <CardContent className="space-y-4">
-            {testimonials.length > 0 ? (
-              testimonials
-                .slice(0, 3)
-                .map((testimonial) => (
-                  <TestimonialCard
-                    key={testimonial.id}
-                    testimonial={testimonial}
-                    compact
-                  />
-                ))
-            ) : (
-              <div className="rounded-xl border border-dashed border-slate-300 bg-white/50 p-4 text-sm text-muted-foreground dark:border-white/10 dark:bg-white/5">
-                <div className="mb-2 flex items-center gap-2 font-medium text-foreground">
-                  <MessageSquareQuote className="size-4 text-blue-600 dark:text-cyan-400" />
-                  No reviews yet
-                </div>
-                Reviews from completed consultations will appear here automatically.
+          <CardContent className="space-y-5">
+            <div className="flex items-start gap-3 rounded-2xl border border-amber-200/60 bg-linear-to-br from-amber-50 via-white to-orange-50 p-4 dark:border-amber-500/20 dark:from-amber-500/10 dark:via-slate-900/40 dark:to-rose-500/10">
+              <div className="inline-flex size-10 shrink-0 items-center justify-center rounded-full bg-linear-to-br from-amber-500 to-rose-500 text-white shadow-md shadow-rose-500/30">
+                <MessageSquareQuote className="size-5" />
               </div>
-            )}
+              <div className="space-y-1">
+                <p className="text-sm font-semibold text-foreground">
+                  {testimonials.length > 0
+                    ? `${testimonials.length} client ${testimonials.length === 1 ? "review" : "reviews"} received`
+                    : "No reviews yet"}
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  {testimonials.length > 0
+                    ? "View, reply, and manage client feedback in one place."
+                    : "Reviews from completed consultations will appear here automatically."}
+                </p>
+              </div>
+            </div>
 
             <Link href="/expert/dashboard/my-reviews" className="inline-flex w-full">
-              <Button variant="outline" className="w-full justify-between">
+              <Button className="w-full justify-between rounded-full bg-linear-to-r from-blue-600 to-cyan-500 text-white shadow-md shadow-cyan-500/25 hover:from-blue-700 hover:to-cyan-600">
                 Open reviews page
                 <ArrowRight className="size-4" />
               </Button>

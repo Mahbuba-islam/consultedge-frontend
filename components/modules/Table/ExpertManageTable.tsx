@@ -108,7 +108,7 @@ const columns: ColumnDef<IExpert>[] = [
     header: "Verification",
     cell: ({ row }) =>
       row.original.isVerified ? (
-        <Badge className="bg-emerald-100 text-emerald-700 hover:bg-emerald-100">
+        <Badge className="bg-emerald-100 text-emerald-700 hover:bg-emerald-100 dark:bg-emerald-500/15 dark:text-emerald-200 dark:hover:bg-emerald-500/15">
           Verified
         </Badge>
       ) : (

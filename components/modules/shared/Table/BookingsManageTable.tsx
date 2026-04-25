@@ -80,10 +80,10 @@ const formatCurrency = (value?: number) => {
 const getConsultationStatusBadge = (status: ConsultationStatus) => {
   switch (status) {
     case "CONFIRMED":
-      return <Badge className="bg-sky-100 text-sky-700 hover:bg-sky-100">Confirmed</Badge>;
+      return <Badge className="bg-sky-100 text-sky-700 hover:bg-sky-100 dark:bg-sky-500/15 dark:text-sky-200 dark:hover:bg-sky-500/15">Confirmed</Badge>;
     case "COMPLETED":
       return (
-        <Badge className="bg-emerald-100 text-emerald-700 hover:bg-emerald-100">
+        <Badge className="bg-emerald-100 text-emerald-700 hover:bg-emerald-100 dark:bg-emerald-500/15 dark:text-emerald-200 dark:hover:bg-emerald-500/15">
           Completed
         </Badge>
       );
@@ -97,7 +97,7 @@ const getConsultationStatusBadge = (status: ConsultationStatus) => {
 const getPaymentStatusBadge = (status: PaymentStatus) => {
   switch (status) {
     case "PAID":
-      return <Badge className="bg-emerald-100 text-emerald-700 hover:bg-emerald-100">Paid</Badge>;
+      return <Badge className="bg-emerald-100 text-emerald-700 hover:bg-emerald-100 dark:bg-emerald-500/15 dark:text-emerald-200 dark:hover:bg-emerald-500/15">Paid</Badge>;
     case "FAILED":
       return <Badge variant="destructive">Failed</Badge>;
     case "REFUNDED":

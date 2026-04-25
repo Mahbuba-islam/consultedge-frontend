@@ -138,7 +138,7 @@ const getRatingBadge = (rating?: number) => {
 
   if (normalizedRating >= 4.5) {
     return (
-      <Badge className="bg-emerald-100 text-emerald-700 hover:bg-emerald-100">
+      <Badge className="bg-emerald-100 text-emerald-700 hover:bg-emerald-100 dark:bg-emerald-500/15 dark:text-emerald-200 dark:hover:bg-emerald-500/15">
         {normalizedRating.toFixed(1)} ★
       </Badge>
     );
@@ -146,7 +146,7 @@ const getRatingBadge = (rating?: number) => {
 
   if (normalizedRating >= 3) {
     return (
-      <Badge className="bg-amber-100 text-amber-700 hover:bg-amber-100">
+      <Badge className="bg-amber-100 text-amber-700 hover:bg-amber-100 dark:bg-amber-500/15 dark:text-amber-200 dark:hover:bg-amber-500/15">
         {normalizedRating.toFixed(1)} ★
       </Badge>
     );
@@ -161,11 +161,11 @@ const getConsultationStatusBadge = (status?: string | null) => {
   const normalizedStatus = status.toUpperCase();
 
   if (normalizedStatus === "COMPLETED") {
-    return <Badge className="bg-emerald-100 text-emerald-700 hover:bg-emerald-100">Completed</Badge>;
+    return <Badge className="bg-emerald-100 text-emerald-700 hover:bg-emerald-100 dark:bg-emerald-500/15 dark:text-emerald-200 dark:hover:bg-emerald-500/15">Completed</Badge>;
   }
 
   if (normalizedStatus === "CONFIRMED") {
-    return <Badge className="bg-sky-100 text-sky-700 hover:bg-sky-100">Confirmed</Badge>;
+    return <Badge className="bg-sky-100 text-sky-700 hover:bg-sky-100 dark:bg-sky-500/15 dark:text-sky-200 dark:hover:bg-sky-500/15">Confirmed</Badge>;
   }
 
   if (normalizedStatus === "CANCELLED") {
@@ -178,7 +178,7 @@ const getConsultationStatusBadge = (status?: string | null) => {
 const getVisibilityBadge = (status?: string) => {
   if (status === "HIDDEN") {
     return (
-      <Badge variant="outline" className="border-amber-200 text-amber-700">
+      <Badge variant="outline" className="border-amber-200 text-amber-700 dark:border-amber-500/30 dark:text-amber-200">
         Hidden
       </Badge>
     );
@@ -186,7 +186,7 @@ const getVisibilityBadge = (status?: string) => {
 
   if (status === "APPROVED") {
     return (
-      <Badge className="bg-emerald-100 text-emerald-700 hover:bg-emerald-100">
+      <Badge className="bg-emerald-100 text-emerald-700 hover:bg-emerald-100 dark:bg-emerald-500/15 dark:text-emerald-200 dark:hover:bg-emerald-500/15">
         Visible
       </Badge>
     );

@@ -66,7 +66,7 @@ const getStatusBadge = (status?: string) => {
   switch (status) {
     case UserStatus.ACTIVE:
       return (
-        <Badge className="bg-emerald-100 text-emerald-700 hover:bg-emerald-100">Active</Badge>
+        <Badge className="bg-emerald-100 text-emerald-700 hover:bg-emerald-100 dark:bg-emerald-500/15 dark:text-emerald-200 dark:hover:bg-emerald-500/15">Active</Badge>
       );
     case UserStatus.BLOCKED:
       return <Badge variant="destructive">Blocked</Badge>;
@@ -106,7 +106,7 @@ const columns: ColumnDef<IUserManagementItem>[] = [
     header: "Email verified",
     cell: ({ row }) =>
       row.original.emailVerified ? (
-        <Badge className="bg-sky-100 text-sky-700 hover:bg-sky-100">Verified</Badge>
+        <Badge className="bg-sky-100 text-sky-700 hover:bg-sky-100 dark:bg-sky-500/15 dark:text-sky-200 dark:hover:bg-sky-500/15">Verified</Badge>
       ) : (
         <Badge variant="secondary">Pending</Badge>
       ),

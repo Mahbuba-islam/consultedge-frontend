@@ -188,9 +188,13 @@ export default function HowItWorksPage() {
         {stats.map(({ value, label, suffix, decimals }) => (
           <div
             key={label}
-            className="rounded-2xl border border-slate-100 bg-white py-6 text-center shadow-sm dark:border-slate-800 dark:bg-slate-900"
+            className="group relative overflow-hidden rounded-2xl border border-slate-200/70 bg-white/80 py-6 text-center shadow-sm backdrop-blur transition-all hover:-translate-y-0.5 hover:shadow-md dark:border-white/10 dark:bg-slate-900/70 dark:shadow-cyan-500/5 dark:hover:border-cyan-400/30 dark:hover:shadow-cyan-500/10"
           >
-            <p className="bg-linear-to-r from-blue-600 via-cyan-500 to-sky-500 bg-clip-text text-3xl font-extrabold text-transparent md:text-4xl">
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-x-0 top-0 h-0.5 bg-linear-to-r from-blue-500 via-cyan-500 to-sky-500 opacity-60"
+            />
+            <p className="bg-linear-to-r from-blue-600 via-cyan-500 to-sky-500 bg-clip-text text-3xl font-extrabold text-transparent md:text-4xl dark:from-blue-400 dark:via-cyan-300 dark:to-sky-300">
               <CountUp value={value} suffix={suffix} decimals={decimals ?? 0} />
             </p>
             <p className="mt-1 text-xs font-medium text-slate-500 dark:text-slate-400">
@@ -215,9 +219,9 @@ export default function HowItWorksPage() {
           {steps.map(({ number, icon: Icon, color, glow, title, description, highlights }) => (
             <div
               key={number}
-              className="group relative overflow-hidden rounded-[24px] border border-slate-100 bg-white p-7 shadow-sm transition-shadow hover:shadow-md dark:border-slate-800 dark:bg-slate-900"
+              className="group relative overflow-hidden rounded-[24px] border border-slate-200/70 bg-white/80 p-7 shadow-sm backdrop-blur transition-all hover:-translate-y-0.5 hover:shadow-md dark:border-white/10 dark:bg-slate-900/70 dark:hover:border-cyan-400/30 dark:hover:shadow-cyan-500/10"
             >
-              <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100 bg-[radial-gradient(ellipse_at_top_left,rgba(59,130,246,0.04),transparent_60%)]" />
+              <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100 bg-[radial-gradient(ellipse_at_top_left,rgba(59,130,246,0.06),transparent_60%)] dark:bg-[radial-gradient(ellipse_at_top_left,rgba(34,211,238,0.12),transparent_60%)]" />
 
               <div className="relative space-y-4">
                 <div className="flex items-center gap-4">
@@ -226,7 +230,7 @@ export default function HowItWorksPage() {
                   >
                     <Icon className="size-5" />
                   </span>
-                  <span className="text-4xl font-black text-slate-100 dark:text-slate-800 select-none">
+                  <span className="select-none bg-linear-to-br from-slate-200 to-slate-100 bg-clip-text text-4xl font-black text-transparent dark:from-white/10 dark:to-cyan-400/20">
                     {number}
                   </span>
                 </div>
@@ -244,7 +248,7 @@ export default function HowItWorksPage() {
                       key={h}
                       className="flex items-center gap-2 text-sm font-medium text-slate-700 dark:text-slate-300"
                     >
-                      <CheckCircle2 className="size-3.5 shrink-0 text-blue-500" />
+                      <CheckCircle2 className="size-3.5 shrink-0 text-blue-500 dark:text-cyan-400" />
                       {h}
                     </li>
                   ))}
@@ -270,7 +274,7 @@ export default function HowItWorksPage() {
           {whyCards.map(({ icon: Icon, label, desc, color, bg }) => (
             <div
               key={label}
-              className="rounded-2xl border border-slate-100 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900"
+              className="group rounded-2xl border border-slate-200/70 bg-white/80 p-5 shadow-sm backdrop-blur transition-all hover:-translate-y-0.5 hover:shadow-md dark:border-white/10 dark:bg-slate-900/70 dark:hover:border-cyan-400/30 dark:hover:shadow-cyan-500/10"
             >
               <span
                 className={`mb-3 flex size-10 items-center justify-center rounded-xl bg-linear-to-br ${bg}`}

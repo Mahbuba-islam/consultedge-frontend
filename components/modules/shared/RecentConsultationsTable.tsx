@@ -26,10 +26,10 @@ interface RecentConsultationsTableProps {
 }
 
 const STATUS_BADGE_CLASS: Record<string, string> = {
-  COMPLETED: "bg-emerald-100 text-emerald-700",
-  PENDING: "bg-amber-100 text-amber-700",
-  ONGOING: "bg-sky-100 text-sky-700",
-  CANCELLED: "bg-rose-100 text-rose-700",
+  COMPLETED: "bg-emerald-100 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-200",
+  PENDING: "bg-amber-100 text-amber-700 dark:bg-amber-500/15 dark:text-amber-200",
+  ONGOING: "bg-sky-100 text-sky-700 dark:bg-sky-500/15 dark:text-sky-200",
+  CANCELLED: "bg-rose-100 text-rose-700 dark:bg-rose-500/15 dark:text-rose-200",
 };
 
 const STATUS_INSIGHTS: Record<string, string> = {
@@ -83,7 +83,7 @@ const RecentConsultationsTable = ({
                         variant="secondary"
                         className={
                           STATUS_BADGE_CLASS[item.status] ||
-                          "bg-slate-100 text-slate-700"
+                          "bg-slate-100 text-slate-700 dark:bg-slate-500/15 dark:text-slate-200"
                         }
                       >
                         {formatStatusLabel(item.status)}
@@ -138,7 +138,7 @@ const RecentConsultationsTable = ({
                     variant="secondary"
                     className={
                       STATUS_BADGE_CLASS[item.status] ||
-                      "bg-slate-100 text-slate-700"
+                      "bg-slate-100 text-slate-700 dark:bg-slate-500/15 dark:text-slate-200"
                     }
                   >
                     {formatStatusLabel(item.status)}
