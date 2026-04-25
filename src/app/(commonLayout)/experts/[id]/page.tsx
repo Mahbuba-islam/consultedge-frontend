@@ -8,6 +8,11 @@ import { getExpertById } from "@/src/services/expert.services";
 import { getTestimonialsByExpert } from "@/src/services/testimonial.services";
 import { getPublishedExpertAvailability, getScheduleCatalog } from "@/src/services/expertAvailability";
 
+// Always render fresh so newly-created expert availability slots show up
+// immediately on the public detail page (no ISR / Full Route Cache).
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 const ExpertDetailsPage = async ({
   params,
 }: {

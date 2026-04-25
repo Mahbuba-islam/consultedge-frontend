@@ -68,7 +68,7 @@
 "use server"
 
 import jwt, { JwtPayload } from "jsonwebtoken";
-import { setCookie } from "./cookieUtils";
+import { purgeCookieEverywhere, setCookie } from "./cookieUtils";
 
 
 const getTokenSecondsRemaining =  (token: string): number => {
@@ -100,6 +100,13 @@ export const setTokenInCookies = async (
     if (name !== "better-auth.session_token"){
         maxAgeInSeconds = getTokenSecondsRemaining(token);
     }
+
+    // 🧹 Evict any orphan duplicates of this cookie that were written
+    // previously with different attributes (path / secure / httpOnly).
+    // Without this, the new write only shadows matching variants and the
+    // browser keeps the stale ones forever — which is how two different
+    // users' tokens can co-exist in `Application → Cookies`.
+    await purgeCookieEverywhere(name);
 
     await setCookie(name, token, maxAgeInSeconds || fallbackMaxAgeInSeconds);
 }

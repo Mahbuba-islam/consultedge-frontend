@@ -192,7 +192,10 @@ export const getPublishedExpertAvailability = async (
   try {
     const publishedResponse = await requestAvailabilityList(
       `${EXPERT_SCHEDULE_BASE}/published/${expertId}`,
-      params,
+      // Add a per-request cache buster so any intermediary CDN / proxy can't
+      // serve a stale "next available" slot list right after the expert
+      // creates a new schedule.
+      { ...params, _t: Date.now() },
     );
 
     // Helper: merge a secondary response into the primary, dedupe by id.
@@ -214,8 +217,8 @@ export const getPublishedExpertAvailability = async (
 
     // Always also try the broader endpoint scoped to this expert so that any
     // slot the published endpoint omitted (e.g. due to server-side time
-    // filtering) is still surfaced. Soft-fail — never let the merge break the
-    // primary response.
+    // filtering, lead-time rules, or stale caches) is still surfaced. Soft-
+    // fail — never let the merge break the primary response.
     let merged = publishedResponse;
     try {
       const expertScoped = await requestAvailabilityList(EXPERT_SCHEDULE_BASE, {
@@ -223,8 +226,28 @@ export const getPublishedExpertAvailability = async (
         expertId,
         isDeleted: false,
         isBooked: false,
+        _t: Date.now(),
       });
       merged = mergeInto(merged, expertScoped);
+    } catch {
+      /* ignore */
+    }
+
+    // Also try the broader endpoint without isBooked/isDeleted filters in
+    // case the backend mis-handles those query params and silently returns
+    // an empty list. We then narrow on the client.
+    try {
+      const expertScopedLoose = await requestAvailabilityList(
+        EXPERT_SCHEDULE_BASE,
+        { ...params, expertId, _t: Date.now() },
+      );
+      const filteredLoose: ApiResponse<IExpertAvailability[]> = {
+        ...expertScopedLoose,
+        data: (expertScopedLoose.data ?? []).filter(
+          (item) => !item?.isDeleted && !item?.isBooked,
+        ),
+      };
+      merged = mergeInto(merged, filteredLoose);
     } catch {
       /* ignore */
     }
@@ -238,6 +261,7 @@ export const getPublishedExpertAvailability = async (
     const broadResponse = await requestAvailabilityList(EXPERT_SCHEDULE_BASE, {
       ...params,
       isDeleted: false,
+      _t: Date.now(),
     });
 
     if (Array.isArray(broadResponse?.data) && broadResponse.data.length > 0) {

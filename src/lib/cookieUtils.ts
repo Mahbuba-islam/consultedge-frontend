@@ -34,6 +34,47 @@ export const setCookie = async (
   });
 };
 
+/**
+ * 🧹 purgeCookieEverywhere()
+ * -------------------------
+ * Issues multiple expiring `Set-Cookie` headers for the same cookie name
+ * across every plausible (path, secure, httpOnly) combo. This is the only
+ * reliable way to evict orphan duplicates that were written previously with
+ * different attributes (e.g. `httpOnly: true` vs `httpOnly: false`, or a
+ * non-root path inherited from a middleware write). Without this sweep,
+ * `cookieStore.set(name, value, { path: "/" })` only shadows the cookies
+ * whose attributes already match — leaving stale duplicates around.
+ *
+ * Safe to call before every legitimate write and during logout.
+ */
+export const purgeCookieEverywhere = async (name: string) => {
+  const cookieStore = await cookies();
+  const isProduction = process.env.NODE_ENV === "production";
+
+  const paths = ["/", "/api", "/api/v1", "/auth", "/dashboard"];
+  const httpOnlyVariants = [true, false];
+  const secureVariants = isProduction ? [true, false] : [false];
+
+  for (const path of paths) {
+    for (const httpOnly of httpOnlyVariants) {
+      for (const secure of secureVariants) {
+        try {
+          cookieStore.set(name, "", {
+            httpOnly,
+            secure,
+            sameSite: "lax",
+            path,
+            maxAge: 0,
+            expires: new Date(0),
+          });
+        } catch {
+          /* ignore individual variant failures */
+        }
+      }
+    }
+  }
+};
+
 
 
 /**
