@@ -184,7 +184,7 @@ export default function ExpertAvailabilityForm() {
   // ---------------- UI ----------------
 
   return (
-    <div className="grid gap-6 xl:grid-cols-[1.4fr_1fr]">
+    <div className="mx-auto w-full max-w-3xl">
       {/* Form card */}
       <div className="relative overflow-hidden rounded-3xl border border-slate-200/70 bg-white/70 shadow-sm backdrop-blur dark:border-white/10 dark:bg-slate-900/60">
         {/* gradient accent bar */}
@@ -194,7 +194,7 @@ export default function ExpertAvailabilityForm() {
 
         <div className="relative p-6 md:p-8">
           <div className="mb-6 flex items-start gap-4">
-            <div className="inline-flex size-12 items-center justify-center rounded-2xl bg-linear-to-br from-blue-600 to-cyan-500 text-white shadow-md shadow-cyan-500/25">
+            <div className="inline-flex size-12 items-center justify-center rounded-full bg-linear-to-br from-blue-600 to-cyan-500 text-white shadow-md shadow-cyan-500/25">
               <CalendarPlus className="size-6" />
             </div>
             <div className="space-y-1">
@@ -315,97 +315,6 @@ export default function ExpertAvailabilityForm() {
               </Button>
             </div>
           </form>
-        </div>
-      </div>
-
-      {/* Live preview card */}
-      <div className="relative overflow-hidden rounded-3xl border border-slate-200/70 bg-white/70 shadow-sm backdrop-blur dark:border-white/10 dark:bg-slate-900/60">
-        <div className="absolute inset-x-0 top-0 h-1 bg-linear-to-r from-emerald-500 via-teal-500 to-cyan-500" />
-        <div className="pointer-events-none absolute -right-20 -bottom-20 hidden size-72 rounded-full bg-emerald-500/15 blur-3xl dark:block" />
-
-        <div className="relative space-y-5 p-6 md:p-8">
-          <div className="flex items-start gap-3">
-            <div className="inline-flex size-10 items-center justify-center rounded-xl bg-linear-to-br from-emerald-500 to-teal-500 text-white shadow-md">
-              <Timer className="size-5" />
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold tracking-tight">
-                Live preview
-              </h3>
-              <p className="text-xs text-muted-foreground">
-                A quick look at what will be created.
-              </p>
-            </div>
-          </div>
-
-          {/* Big slot count */}
-          <div className="rounded-2xl border border-emerald-200/60 bg-linear-to-br from-emerald-50 to-teal-50 p-5 text-center dark:border-emerald-500/20 dark:from-emerald-500/10 dark:to-teal-500/10">
-            <p className="text-xs uppercase tracking-wider text-muted-foreground">
-              Total slots to be created
-            </p>
-            <p className="mt-2 bg-linear-to-r from-emerald-600 to-teal-500 bg-clip-text text-5xl font-bold text-transparent">
-              {expectedSlotCount ?? "—"}
-            </p>
-            <p className="mt-1 text-xs text-muted-foreground">
-              30 minutes each
-            </p>
-          </div>
-
-          {/* Date / time summary */}
-          <div className="grid grid-cols-2 gap-3">
-            <div className="rounded-xl border border-blue-200/60 bg-blue-50/60 p-3 dark:border-blue-500/20 dark:bg-blue-500/10">
-              <p className="text-[10px] font-semibold uppercase tracking-wider text-blue-700 dark:text-blue-300">
-                Starts
-              </p>
-              <p className="mt-1 text-sm font-semibold text-foreground">
-                {formatPreviewDate(formState.startDate)}
-              </p>
-              <p className="text-xs text-muted-foreground">
-                {formatPreviewTime(formState.startTime)}
-              </p>
-            </div>
-
-            <div className="rounded-xl border border-cyan-200/60 bg-cyan-50/60 p-3 dark:border-cyan-500/20 dark:bg-cyan-500/10">
-              <p className="text-[10px] font-semibold uppercase tracking-wider text-cyan-700 dark:text-cyan-300">
-                Ends
-              </p>
-              <p className="mt-1 text-sm font-semibold text-foreground">
-                {formatPreviewDate(formState.endDate)}
-              </p>
-              <p className="text-xs text-muted-foreground">
-                {formatPreviewTime(formState.endTime)}
-              </p>
-            </div>
-          </div>
-
-          {/* Detail rows */}
-          <div className="space-y-2 rounded-xl border border-slate-200/60 bg-white/50 p-3 dark:border-white/10 dark:bg-white/5">
-            <div className="flex items-center justify-between text-sm">
-              <span className="text-muted-foreground">Days covered</span>
-              <span className="font-semibold text-foreground">
-                {daySpanForPreview ?? "—"}
-              </span>
-            </div>
-            <div className="flex items-center justify-between text-sm">
-              <span className="text-muted-foreground">Slots / day</span>
-              <span className="font-semibold text-foreground">
-                {expectedSlotCount && daySpanForPreview
-                  ? Math.round(expectedSlotCount / daySpanForPreview)
-                  : "—"}
-              </span>
-            </div>
-            <div className="flex items-center justify-between text-sm">
-              <span className="text-muted-foreground">Slot length</span>
-              <span className="font-semibold text-foreground">30 min</span>
-            </div>
-          </div>
-
-          {!expectedSlotCount ? (
-            <p className="rounded-lg border border-dashed border-amber-300/60 bg-amber-50/60 p-3 text-xs text-amber-800 dark:border-amber-500/30 dark:bg-amber-500/10 dark:text-amber-200">
-              Select a valid date range and time window to preview your slot
-              count.
-            </p>
-          ) : null}
         </div>
       </div>
     </div>

@@ -127,9 +127,8 @@ const DashboardMobileSidebar = ({dashboardHome, navItems, userInfo} : DashboardM
       {/* User Info */}
       <div className="border-t p-4">
         <div className="flex items-center gap-3">
-          <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
-          {/* if profile doesnt exist , use first letter of user name as profile photo like component */}
-            <span className="text-sm font-semibold text-primary">
+          <div className="h-9 w-9 rounded-full bg-linear-to-br from-blue-600 via-cyan-500 to-teal-400 shadow-md shadow-cyan-500/30 flex items-center justify-center shrink-0">
+            <span className="text-sm font-bold text-white leading-none">
               {userInfo.name.charAt(0).toUpperCase()}
             </span>
           </div>

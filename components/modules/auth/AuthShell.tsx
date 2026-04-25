@@ -12,7 +12,7 @@ interface AuthShellProps {
   titleLead: string;
   titleAccent: string;
   description: string;
-  highlights: AuthShellHighlight[];
+  highlights?: AuthShellHighlight[];
   children: React.ReactNode;
 }
 
@@ -24,6 +24,7 @@ export default function AuthShell({
   highlights,
   children,
 }: AuthShellProps) {
+  void highlights;
   return (
     <div className="relative isolate min-h-[80vh] py-8 md:py-12">
       {/* Decorative gradient layers */}
@@ -60,26 +61,6 @@ export default function AuthShell({
             </h1>
             <p className="mt-4 max-w-md text-muted-foreground">{description}</p>
           </div>
-
-          <ul className="space-y-3">
-            {highlights.map((item) => {
-              const Icon = item.icon;
-              return (
-                <li
-                  key={item.title}
-                  className="flex items-start gap-3 rounded-2xl border border-white/60 bg-white/55 p-4 shadow-[0_18px_40px_-30px_rgba(15,23,42,0.35)] backdrop-blur-xl transition hover:bg-white/70 dark:border-white/10 dark:bg-white/5 dark:hover:bg-white/10"
-                >
-                  <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-linear-to-br from-blue-500/20 to-cyan-500/20 text-cyan-700 ring-1 ring-white/40 dark:text-cyan-300 dark:ring-white/10">
-                    <Icon className="size-5" />
-                  </div>
-                  <div>
-                    <p className="font-semibold text-foreground">{item.title}</p>
-                    <p className="text-sm text-muted-foreground">{item.desc}</p>
-                  </div>
-                </li>
-              );
-            })}
-          </ul>
         </div>
 
         {/* Right: glass form card */}

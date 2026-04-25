@@ -87,7 +87,7 @@ const AdminDashboardContent = () => {
   return (
     <div className="space-y-8">
       {/* Hero */}
-      <Card className="relative overflow-hidden border-white/10 bg-linear-to-br from-slate-950 via-blue-900 to-indigo-700 text-white shadow-2xl shadow-indigo-500/30">
+      <Card className="relative overflow-hidden border-white/10 bg-linear-to-br from-slate-950 via-blue-900 to-cyan-700 text-white shadow-2xl shadow-cyan-500/30 dark:from-slate-950 dark:via-slate-900 dark:to-cyan-950">
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute -right-24 -top-24 size-72 rounded-full bg-indigo-400/25 blur-3xl" />
           <div className="absolute -bottom-24 -left-16 size-72 rounded-full bg-blue-400/30 blur-3xl" />

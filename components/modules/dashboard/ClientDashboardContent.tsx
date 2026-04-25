@@ -86,7 +86,7 @@ const ClientDashboardContent = () => {
   return (
     <div className="space-y-8">
       {/* Hero */}
-      <Card className="relative overflow-hidden border-white/30 bg-linear-to-br from-blue-600 via-cyan-600 to-indigo-600 text-white shadow-2xl shadow-blue-500/20 dark:border-white/10">
+      <Card className="relative overflow-hidden border-white/30 bg-linear-to-br from-blue-700 via-cyan-600 to-teal-500 text-white shadow-2xl shadow-blue-500/20 dark:border-white/10 dark:from-blue-900 dark:via-cyan-900 dark:to-slate-900 dark:shadow-cyan-500/10">
         {/* Decorative background */}
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute -right-24 -top-24 size-72 rounded-full bg-white/15 blur-3xl" />

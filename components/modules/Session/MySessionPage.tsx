@@ -1,10 +1,11 @@
 "use client";
 
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { CalendarClock, CheckCircle2, Clock, RefreshCw, Sparkles } from "lucide-react";
+import { CalendarClock, CheckCircle2, Clock, RefreshCw, Sparkles, AlertTriangle } from "lucide-react";
 
 import ExpertConsultationCard from "@/components/modules/Bokings/ExpertConsultationCard";
+import ConsultationTabs from "@/components/modules/Tabs/ConsultationTabs";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -75,27 +76,75 @@ export default function MySessionPage() {
     [data]
   );
 
-  const upcoming = useMemo(() => {
-    return consultations.filter(
-      (item) =>
-        item.status === "CONFIRMED" || item.status === "PENDING"
-    );
-  }, [consultations]);
+  const getEndTime = (item: IConsultation) => {
+    const raw = item as IConsultation & {
+      endDateTime?: string | null;
+      schedule?: { endDateTime?: string | null } | null;
+    };
+    const endIso =
+      item.expertSchedule?.schedule?.endDateTime ??
+      raw.schedule?.endDateTime ??
+      raw.endDateTime ??
+      null;
+    if (endIso) return new Date(endIso);
+    return item.date ? new Date(item.date) : null;
+  };
 
-  const completed = useMemo(() => {
-    return consultations.filter(
-      (item) => item.status === "COMPLETED"
-    );
-  }, [consultations]);
+  const isMissed = (item: IConsultation) => {
+    const end = getEndTime(item);
+    if (!end) return false;
+    return end < new Date();
+  };
+
+  const upcoming = useMemo(
+    () =>
+      consultations.filter(
+        (item) =>
+          (item.status === "CONFIRMED" || item.status === "PENDING") &&
+          !isMissed(item)
+      ),
+    [consultations]
+  );
+
+  const completed = useMemo(
+    () => consultations.filter((item) => item.status === "COMPLETED"),
+    [consultations]
+  );
+
+  const missed = useMemo(
+    () =>
+      consultations.filter(
+        (item) =>
+          (item.status === "CONFIRMED" || item.status === "PENDING") &&
+          isMissed(item)
+      ),
+    [consultations]
+  );
 
   const stats = useMemo(
     () => ({
       total: consultations.length,
       upcoming: upcoming.length,
       completed: completed.length,
+      missed: missed.length,
     }),
-    [consultations, upcoming, completed]
+    [consultations, upcoming, completed, missed]
   );
+
+  const [activeTab, setActiveTab] = useState<"upcoming" | "completed" | "missed">("upcoming");
+
+  useEffect(() => {
+    if (activeTab === "missed" && missed.length === 0 && upcoming.length > 0) {
+      setActiveTab("upcoming");
+    }
+  }, [activeTab, missed.length, upcoming.length]);
+
+  const visibleList =
+    activeTab === "upcoming"
+      ? upcoming
+      : activeTab === "completed"
+        ? completed
+        : missed;
 
   // ---------------- UI ----------------
 
@@ -135,7 +184,7 @@ export default function MySessionPage() {
       </section>
 
       {/* STATS */}
-      <div className="grid gap-4 md:grid-cols-3">
+      <div className="grid gap-4 md:grid-cols-4">
         <Card className="relative overflow-hidden border-blue-200/60 bg-linear-to-br from-blue-50 to-white shadow-sm dark:border-blue-500/20 dark:from-blue-500/10 dark:to-slate-900/80">
           <div className="absolute inset-x-0 top-0 h-1 bg-linear-to-r from-blue-600 to-cyan-500" />
           <CardContent className="flex items-start justify-between gap-3 p-5">
@@ -143,7 +192,7 @@ export default function MySessionPage() {
               <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Total</p>
               <p className="mt-2 text-3xl font-bold text-foreground">{stats.total}</p>
             </div>
-            <div className="inline-flex size-10 items-center justify-center rounded-xl bg-blue-100 text-blue-700 dark:bg-blue-500/20 dark:text-blue-300">
+            <div className="inline-flex size-10 items-center justify-center rounded-full bg-blue-100 text-blue-700 dark:bg-blue-500/20 dark:text-blue-300">
               <CalendarClock className="size-5" />
             </div>
           </CardContent>
@@ -156,7 +205,7 @@ export default function MySessionPage() {
               <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Upcoming</p>
               <p className="mt-2 text-3xl font-bold text-foreground">{stats.upcoming}</p>
             </div>
-            <div className="inline-flex size-10 items-center justify-center rounded-xl bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-300">
+            <div className="inline-flex size-10 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-300">
               <Clock className="size-5" />
             </div>
           </CardContent>
@@ -169,8 +218,21 @@ export default function MySessionPage() {
               <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Completed</p>
               <p className="mt-2 text-3xl font-bold text-foreground">{stats.completed}</p>
             </div>
-            <div className="inline-flex size-10 items-center justify-center rounded-xl bg-violet-100 text-violet-700 dark:bg-violet-500/20 dark:text-violet-300">
+            <div className="inline-flex size-10 items-center justify-center rounded-full bg-violet-100 text-violet-700 dark:bg-violet-500/20 dark:text-violet-300">
               <CheckCircle2 className="size-5" />
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="relative overflow-hidden border-rose-200/60 bg-linear-to-br from-rose-50 to-white shadow-sm dark:border-rose-500/20 dark:from-rose-500/10 dark:to-slate-900/80">
+          <div className="absolute inset-x-0 top-0 h-1 bg-linear-to-r from-rose-500 to-orange-500" />
+          <CardContent className="flex items-start justify-between gap-3 p-5">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Missed</p>
+              <p className="mt-2 text-3xl font-bold text-foreground">{stats.missed}</p>
+            </div>
+            <div className="inline-flex size-10 items-center justify-center rounded-full bg-rose-100 text-rose-700 dark:bg-rose-500/20 dark:text-rose-300">
+              <AlertTriangle className="size-5" />
             </div>
           </CardContent>
         </Card>
@@ -208,59 +270,34 @@ export default function MySessionPage() {
         </Card>
       ) : (
         <>
-          {/* UPCOMING */}
-          <div className="space-y-3">
-            <div className="flex items-center gap-2">
-              <h2 className="text-xl font-semibold tracking-tight">
-                Upcoming sessions
-              </h2>
-              <Badge className="border-emerald-200/60 bg-emerald-100 text-emerald-700 dark:border-emerald-500/30 dark:bg-emerald-500/15 dark:text-emerald-200">
-                {upcoming.length}
-              </Badge>
+          <ConsultationTabs
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
+            upcomingCount={upcoming.length}
+            completedCount={completed.length}
+            missedCount={missed.length}
+          />
+
+          {visibleList.length === 0 ? (
+            <Card className="border-dashed border-slate-200/70 bg-white/60 dark:border-white/10 dark:bg-slate-900/60">
+              <CardContent className="py-10 text-center text-sm text-muted-foreground">
+                {activeTab === "upcoming"
+                  ? "No upcoming sessions."
+                  : activeTab === "completed"
+                    ? "No completed sessions yet."
+                    : "No missed sessions."}
+              </CardContent>
+            </Card>
+          ) : (
+            <div className="grid gap-4 xl:grid-cols-2">
+              {visibleList.map((consultation) => (
+                <ExpertConsultationCard
+                  key={consultation.id}
+                  consultation={consultation}
+                />
+              ))}
             </div>
-
-            {upcoming.length === 0 ? (
-              <p className="text-sm text-muted-foreground">
-                No upcoming sessions
-              </p>
-            ) : (
-              <div className="grid gap-4 xl:grid-cols-2">
-                {upcoming.map((consultation) => (
-                  <ExpertConsultationCard
-                    key={consultation.id}
-                    consultation={consultation}
-                  />
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* COMPLETED */}
-          <div className="mt-10 space-y-3">
-            <div className="flex items-center gap-2">
-              <h2 className="text-xl font-semibold tracking-tight">
-                Completed sessions
-              </h2>
-              <Badge className="border-violet-200/60 bg-violet-100 text-violet-700 dark:border-violet-500/30 dark:bg-violet-500/15 dark:text-violet-200">
-                {completed.length}
-              </Badge>
-            </div>
-
-            {completed.length === 0 ? (
-              <p className="text-sm text-muted-foreground">
-                No completed sessions
-              </p>
-            ) : (
-              <div className="grid gap-4 xl:grid-cols-2">
-                {completed.map((consultation) => (
-                  <ExpertConsultationCard
-                    key={consultation.id}
-                    consultation={consultation}
-                  />
-                ))}
-              </div>
-            )}
-          </div>
+          )}
         </>
       )}
     </div>

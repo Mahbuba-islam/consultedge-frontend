@@ -536,7 +536,8 @@ export default function ConsultationsList({
   // Extract consultations
   // -------------------------
   const extracted = useMemo(() => extractConsultations(data), [data]);
-  const bookings = consultations.length > 0 ? consultations : extracted;
+  void extracted;
+  const bookings = consultations;
 
   // -------------------------
   // Redirect highlight logic

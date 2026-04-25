@@ -131,7 +131,7 @@ const DashboardSidebarContent = ({dashboardHome, navItems, userInfo} : Dashboard
       {/* User Info At Bottom */}
       <div className="border-t px-3 py-4">
         <div className="flex items-center gap-3">
-          <div className="h-10 w-10 rounded-full bg-blue-600 flex items-center justify-center shrink-0">
+          <div className="h-10 w-10 rounded-full bg-linear-to-br from-blue-600 via-cyan-500 to-teal-400 shadow-md shadow-cyan-500/30 flex items-center justify-center shrink-0">
             <span className="text-lg font-bold text-white leading-none">
               {userInfo?.name?.charAt(0)?.toUpperCase() || "?"}
             </span>

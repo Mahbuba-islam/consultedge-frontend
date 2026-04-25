@@ -273,7 +273,7 @@ export default function MyScheduleList() {
           <div className="flex items-start justify-between gap-3">
             <div className="flex items-start gap-3">
               <div
-                className={`inline-flex size-10 items-center justify-center rounded-xl text-white shadow-md ${
+                className={`inline-flex size-10 items-center justify-center rounded-full text-white shadow-md ${
                   isBooked
                     ? "bg-linear-to-br from-amber-500 to-orange-500 shadow-amber-500/30"
                     : "bg-linear-to-br from-emerald-500 to-teal-500 shadow-emerald-500/30"

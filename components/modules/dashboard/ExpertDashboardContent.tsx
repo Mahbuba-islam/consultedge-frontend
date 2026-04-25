@@ -143,7 +143,7 @@ const ExpertDashboardContent = () => {
   return (
     <div className="mx-auto w-full max-w-7xl space-y-8">
       {/* Hero */}
-      <Card className="relative overflow-hidden border-white/30 bg-linear-to-br from-blue-700 via-indigo-600 to-sky-500 text-white shadow-2xl shadow-blue-500/20 dark:border-white/10">
+      <Card className="relative overflow-hidden border-white/30 bg-linear-to-br from-blue-700 via-cyan-600 to-teal-500 text-white shadow-2xl shadow-blue-500/20 dark:border-white/10 dark:from-blue-900 dark:via-cyan-900 dark:to-slate-900 dark:shadow-cyan-500/10">
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute -right-24 -top-24 size-72 rounded-full bg-white/15 blur-3xl" />
           <div className="absolute -bottom-24 -left-16 size-72 rounded-full bg-cyan-300/30 blur-3xl" />
@@ -304,7 +304,7 @@ const ExpertDashboardContent = () => {
         />
       </div>
 
-      <div className="grid grid-cols-1 gap-6 xl:grid-cols-3">
+      <div className="grid grid-cols-1 items-start gap-6 xl:grid-cols-3">
         <div className="xl:col-span-2">
           <ConsultationsPieChart
             data={statusItems}
@@ -377,7 +377,7 @@ const ExpertDashboardContent = () => {
         </Card>
       </div>
 
-      <div className="grid grid-cols-1 gap-6 xl:grid-cols-[1.15fr_0.85fr]">
+      <div className="grid grid-cols-1 items-start gap-6 xl:grid-cols-[1.15fr_0.85fr]">
         <RecentConsultationsTable
           data={statusItems}
           title="Recent Consultation Snapshot"
