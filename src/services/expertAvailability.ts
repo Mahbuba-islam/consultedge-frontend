@@ -195,20 +195,42 @@ export const getPublishedExpertAvailability = async (
       params,
     );
 
-    if (Array.isArray(publishedResponse?.data) && publishedResponse.data.length > 0) {
-      return publishedResponse;
+    // Helper: merge a secondary response into the primary, dedupe by id.
+    const mergeInto = (
+      primary: ApiResponse<IExpertAvailability[]>,
+      secondary: ApiResponse<IExpertAvailability[]> | null | undefined,
+    ): ApiResponse<IExpertAvailability[]> => {
+      if (!secondary?.data?.length) return primary;
+      const seen = new Set(
+        (primary.data ?? []).map((s) => String((s as any)?.id ?? "")),
+      );
+      const extras = secondary.data.filter((s) => {
+        const id = String((s as any)?.id ?? "");
+        return id && !seen.has(id);
+      });
+      if (!extras.length) return primary;
+      return { ...primary, data: [...(primary.data ?? []), ...extras] };
+    };
+
+    // Always also try the broader endpoint scoped to this expert so that any
+    // slot the published endpoint omitted (e.g. due to server-side time
+    // filtering) is still surfaced. Soft-fail — never let the merge break the
+    // primary response.
+    let merged = publishedResponse;
+    try {
+      const expertScoped = await requestAvailabilityList(EXPERT_SCHEDULE_BASE, {
+        ...params,
+        expertId,
+        isDeleted: false,
+        isBooked: false,
+      });
+      merged = mergeInto(merged, expertScoped);
+    } catch {
+      /* ignore */
     }
 
-    // Fallback: some backends keep `isPublished` false for fresh slots even though they are bookable.
-    const fallbackResponse = await requestAvailabilityList(EXPERT_SCHEDULE_BASE, {
-      ...params,
-      expertId,
-      isDeleted: false,
-      isBooked: false,
-    });
-
-    if (Array.isArray(fallbackResponse?.data) && fallbackResponse.data.length > 0) {
-      return fallbackResponse;
+    if (Array.isArray(merged?.data) && merged.data.length > 0) {
+      return merged;
     }
 
     // Last fallback: some backends ignore/deny expertId filter for this route.
