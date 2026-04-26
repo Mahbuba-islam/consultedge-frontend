@@ -283,6 +283,10 @@ export const getTestimonialsForExpertContext = async (
     return [];
   }
 
+  // Only use the filtered path-based endpoint (`/testimonials/expert/:expertId`).
+  // The generic `/testimonials` endpoint does not enforce the `expertId` /
+  // `userId` query params on the backend, so falling back to it returns every
+  // testimonial in the database — which leaks reviews across users.
   const collected: ITestimonial[] = [];
 
   for (const identifier of uniqueIdentifiers) {
@@ -293,37 +297,7 @@ export const getTestimonialsForExpertContext = async (
         collected.push(...byPath);
       }
     } catch {
-      // Try query-param based lookup next.
-    }
-
-    try {
-      const byExpertId = await requestTestimonials("/testimonials", {
-        expertId: identifier,
-        limit: 100,
-        sortBy: "createdAt",
-        sortOrder: "desc",
-      });
-
-      if (byExpertId.length > 0) {
-        collected.push(...byExpertId);
-      }
-    } catch {
-      // Try userId-based lookup next.
-    }
-
-    try {
-      const byUserId = await requestTestimonials("/testimonials", {
-        userId: identifier,
-        limit: 100,
-        sortBy: "createdAt",
-        sortOrder: "desc",
-      });
-
-      if (byUserId.length > 0) {
-        collected.push(...byUserId);
-      }
-    } catch {
-      // Ignore unsupported filter variants.
+      // Identifier wasn't a valid expertId — skip it.
     }
   }
 

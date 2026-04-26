@@ -46,6 +46,12 @@ export default function ResetPasswordForm({ email, otpSent = false }: { email: s
     },
 
     onSubmit: async ({ value }) => {
+      // Clear any lingering toasts from a previous attempt so the user never
+      // sees a stale error toast next to a fresh success toast (sonner doesn't
+      // auto-dismiss instantly on re-submit).
+      const TOAST_ID = "reset-password";
+      toast.dismiss(TOAST_ID);
+
       const validation = resetPasswordSchema.safeParse(value);
       if (!validation.success) {
         const fields = validation.error.flatten().fieldErrors;
@@ -53,7 +59,7 @@ export default function ResetPasswordForm({ email, otpSent = false }: { email: s
           fields.password?.[0] ||
           fields.confirmPassword?.[0] ||
           "Please check your reset details.";
-        toast.error(firstError);
+        toast.error(firstError, { id: TOAST_ID });
         return;
       }
 
@@ -67,16 +73,22 @@ export default function ResetPasswordForm({ email, otpSent = false }: { email: s
         });
       } catch (error: any) {
         const raw = error?.response?.data?.message || error?.message;
-        toast.error(friendlyOtpMessage(raw, "Couldn't reset your password right now. Please try again."));
+        toast.error(
+          friendlyOtpMessage(raw, "Couldn't reset your password right now. Please try again."),
+          { id: TOAST_ID },
+        );
         return;
       }
 
       if (!res.success) {
-        toast.error(friendlyOtpMessage(res.message, "Couldn't reset your password right now. Please try again."));
+        toast.error(
+          friendlyOtpMessage(res.message, "Couldn't reset your password right now. Please try again."),
+          { id: TOAST_ID },
+        );
         return;
       }
 
-      toast.success("Password updated successfully");
+      toast.success("Password updated successfully", { id: TOAST_ID });
       form.reset();
 
       setTimeout(() => {
