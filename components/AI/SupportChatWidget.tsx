@@ -122,7 +122,7 @@ export default function SupportChatWidget() {
             </div>
           </div>
 
-          <div className="flex h-[calc(100%-96px)] flex-col bg-linear-to-b from-blue-50/50 via-background to-sky-50/40">
+          <div className="flex h-[calc(100%-96px)] flex-col bg-linear-to-b from-blue-50/50 via-background to-sky-50/40 dark:from-slate-950 dark:via-slate-950 dark:to-slate-950">
             <div className="border-b px-3 py-3">
               <div className="flex flex-wrap gap-2">
                 {quickActions.map((action) => (
@@ -131,7 +131,7 @@ export default function SupportChatWidget() {
                     type="button"
                     onClick={() => void sendQuickAction(action)}
                     disabled={isLoading}
-                    className="rounded-full border border-blue-200 bg-white px-3 py-1.5 text-xs font-medium text-blue-700 transition hover:border-blue-300 hover:bg-blue-50 disabled:cursor-not-allowed disabled:opacity-70"
+                    className="rounded-full border border-blue-200 bg-white px-3 py-1.5 text-xs font-medium text-blue-700 transition hover:border-blue-300 hover:bg-blue-50 disabled:cursor-not-allowed disabled:opacity-70 dark:border-cyan-500/30 dark:bg-slate-900 dark:text-cyan-200 dark:hover:border-cyan-400/50 dark:hover:bg-slate-800"
                   >
                     {action.label}
                   </button>
@@ -151,11 +151,13 @@ export default function SupportChatWidget() {
                     >
                       <div
                         className={cn(
-                          "max-w-[88%] rounded-2xl px-3.5 py-3 text-sm shadow-sm",
+                          "max-w-[88%] rounded-2xl px-3.5 py-3 text-sm shadow-sm wrap-break-word",
                           isUser
                             ? "bg-blue-600 text-white"
-                            : "border border-blue-100 bg-white/90 text-foreground",
-                          message.isError && !isUser ? "border-amber-200 bg-amber-50" : undefined,
+                            : "border border-blue-100 bg-white/90 text-foreground dark:border-white/10 dark:bg-slate-900/90 dark:text-slate-100",
+                          message.isError && !isUser
+                            ? "border-amber-200 bg-amber-50 text-amber-900 dark:border-amber-500/30 dark:bg-amber-500/10 dark:text-amber-100"
+                            : undefined,
                         )}
                       >
                         <div className="mb-2 flex items-center gap-2 text-[11px] font-medium opacity-80">
@@ -206,7 +208,7 @@ export default function SupportChatWidget() {
 
                 {isLoading ? (
                   <div className="flex justify-start">
-                    <div className="rounded-2xl border border-blue-100 bg-white/90 px-3.5 py-3 text-sm shadow-sm">
+                    <div className="rounded-2xl border border-blue-100 bg-white/90 px-3.5 py-3 text-sm shadow-sm dark:border-white/10 dark:bg-slate-900/90">
                       <div className="mb-2 flex items-center gap-2 text-[11px] font-medium text-muted-foreground">
                         <Bot className="size-3.5" />
                         Thinking
@@ -234,7 +236,7 @@ export default function SupportChatWidget() {
                 </div>
               ) : null}
 
-              <div className="rounded-2xl border bg-white p-2 shadow-sm dark:bg-slate-900">
+              <div className="rounded-2xl border bg-white p-2 shadow-sm dark:border-white/10 dark:bg-slate-900">
                 <Textarea
                   value={input}
                   onChange={(event) => setInput(event.target.value)}

@@ -76,9 +76,10 @@ export default function MessageBubble({
               {message.text ? (
                 <p
                   className={cn(
-                    "text-sm leading-6",
+                    "text-sm leading-6 wrap-break-word",
                     isOwnMessage ? "text-white" : "text-foreground",
                   )}
+                  style={{ overflowWrap: "anywhere" }}
                 >
                   {message.text}
                 </p>

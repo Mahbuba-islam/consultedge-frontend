@@ -445,14 +445,20 @@ export default function ChatWorkspace({
                 <TypingIndicator
                   names={typingUsers.map((entry) => entry.name || "Someone")}
                 />
-                <MessageComposer
-                  disabled={isReadOnly}
-                  isSending={isSending}
-                  isUploading={isUploading}
-                  onSendMessage={handleSendMessage}
-                  onUploadAttachment={handleUploadAttachment}
-                  onTyping={triggerTyping}
-                />
+                {isReadOnly ? (
+                  <div className="rounded-2xl border border-dashed bg-muted/40 px-4 py-3 text-center text-xs text-muted-foreground">
+                    Admin view is read-only. You can monitor this conversation but cannot send messages.
+                  </div>
+                ) : (
+                  <MessageComposer
+                    disabled={isReadOnly}
+                    isSending={isSending}
+                    isUploading={isUploading}
+                    onSendMessage={handleSendMessage}
+                    onUploadAttachment={handleUploadAttachment}
+                    onTyping={triggerTyping}
+                  />
+                )}
               </div>
             </>
           )}

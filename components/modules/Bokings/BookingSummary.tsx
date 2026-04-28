@@ -95,10 +95,10 @@ export default function BookingSummary({
       </CardHeader>
 
       <CardContent className="space-y-4 p-5">
-        <div className="rounded-2xl border border-blue-100 bg-blue-50/70 p-4">
-          <p className="text-xs uppercase tracking-[0.2em] text-blue-700">Expert</p>
-          <h3 className="mt-1 text-lg font-semibold text-foreground">{expertName}</h3>
-          <p className="text-sm text-muted-foreground">{expertTitle || "Consultation specialist"}</p>
+        <div className="rounded-2xl border border-blue-100 bg-blue-50/70 p-4 dark:border-cyan-500/20 dark:bg-cyan-500/10">
+          <p className="text-xs uppercase tracking-[0.2em] text-blue-700 dark:text-cyan-300">Expert</p>
+          <h3 className="mt-1 text-lg font-semibold text-foreground dark:text-white">{expertName}</h3>
+          <p className="text-sm text-muted-foreground dark:text-slate-300">{expertTitle || "Consultation specialist"}</p>
         </div>
 
         <div className="grid gap-3 sm:grid-cols-2">
@@ -119,30 +119,30 @@ export default function BookingSummary({
           </div>
         </div>
 
-        <div className="rounded-2xl border bg-emerald-50/70 p-4">
+        <div className="rounded-2xl border bg-emerald-50/70 p-4 dark:border-emerald-500/20 dark:bg-emerald-500/10">
           <div className="flex items-center justify-between gap-3">
             <div>
-              <p className="text-xs uppercase tracking-[0.2em] text-emerald-700">Session fee</p>
-              <p className="mt-1 text-2xl font-bold text-foreground">
+              <p className="text-xs uppercase tracking-[0.2em] text-emerald-700 dark:text-emerald-300">Session fee</p>
+              <p className="mt-1 text-2xl font-bold text-foreground dark:text-white">
                 {formatCurrency(consultationFee)}
               </p>
             </div>
-            <ShieldCheck className="size-8 text-emerald-600" />
+            <ShieldCheck className="size-8 text-emerald-600 dark:text-emerald-300" />
           </div>
         </div>
 
         <Separator />
 
         {!isLoggedIn ? (
-          <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+          <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800 dark:border-amber-500/30 dark:bg-amber-500/10 dark:text-amber-200">
             Sign in with a <strong>client</strong> account to continue booking.
           </div>
         ) : !isClient ? (
-          <div className="rounded-2xl border border-sky-200 bg-sky-50 px-4 py-3 text-sm text-sky-800">
+          <div className="rounded-2xl border border-sky-200 bg-sky-50 px-4 py-3 text-sm text-sky-800 dark:border-sky-500/30 dark:bg-sky-500/10 dark:text-sky-200">
             Booking is currently available for <strong>client accounts</strong> only.
           </div>
         ) : (
-          <div className="rounded-2xl border border-blue-100 bg-blue-50/60 px-4 py-3 text-sm text-blue-800">
+          <div className="rounded-2xl border border-blue-100 bg-blue-50/60 px-4 py-3 text-sm text-blue-800 dark:border-cyan-500/30 dark:bg-cyan-500/10 dark:text-cyan-100">
             Choose <strong>pay now</strong> for Stripe checkout or <strong>pay later</strong>
             to reserve and complete payment from your dashboard.
           </div>
@@ -170,7 +170,7 @@ export default function BookingSummary({
 
           <Button
             variant="outline"
-            className="w-full border-blue-200 text-blue-700 hover:bg-blue-50"
+            className="w-full border-blue-200 text-blue-700 hover:bg-blue-50 dark:border-cyan-500/30 dark:bg-transparent dark:text-cyan-200 dark:hover:bg-cyan-500/10"
             disabled={isDisabled}
             type="button"
             onClick={onPayLater}
